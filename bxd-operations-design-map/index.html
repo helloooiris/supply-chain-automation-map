@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运营与设计 AI + RPA 自动化场景地图</title>
+  <style>
+    :root {
+      --paper: #f7f6f1;
+      --surface: #ffffff;
+      --surface-soft: #f1f0ea;
+      --ink: #171717;
+      --muted: #6f716b;
+      --line: #e2ded4;
+      --line-strong: #cfc9bc;
+      --brand: #465c7c;
+      --brand-soft: #eff3f7;
+      --gold: #c68c44;
+      --l1: #4778bf;
+      --l2: #d48739;
+      --l3: #8f62b0;
+      --l1-soft: #eef4fc;
+      --l2-soft: #fff4e7;
+      --l3-soft: #f6eef9;
+      --shadow: 0 12px 28px rgba(35, 31, 25, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      background: var(--paper);
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .hero {
+      padding: 46px max(24px, 6vw) 42px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.62)),
+        repeating-linear-gradient(135deg, rgba(70, 92, 124, 0.06) 0 1px, transparent 1px 24px),
+        #fbfaf6;
+    }
+
+    .hero-inner {
+      max-width: min(1760px, 100%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 10px;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 780;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    h1 {
+      max-width: none;
+      margin: 0;
+      font-size: clamp(34px, 4.2vw, 66px);
+      line-height: 1.04;
+      font-weight: 780;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .subtitle {
+      max-width: 1320px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.85;
+      text-wrap: pretty;
+    }
+
+    .hint {
+      max-width: 860px;
+      margin: 18px 0 0;
+      padding-left: 16px;
+      border-left: 2px solid var(--gold);
+      color: #6a604f;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .page {
+      padding: 34px max(20px, 4vw) 64px;
+    }
+
+    .stage-guide {
+      max-width: 1440px;
+      margin: 0 auto 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .stage-card {
+      position: relative;
+      min-height: 136px;
+      padding: 22px 22px 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      overflow: hidden;
+    }
+
+    .stage-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--level-color);
+    }
+
+    .stage-code {
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--level-color);
+      background: var(--level-soft);
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.2;
+    }
+
+    .stage-card h2 {
+      margin: 0 0 10px;
+      font-size: 19px;
+      line-height: 1.3;
+    }
+
+    .stage-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .map-tools {
+      max-width: 1440px;
+      margin: 0 auto 28px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f1f0eb;
+    }
+
+    .path-panel,
+    .filter-panel {
+      border-radius: 8px;
+      padding: 20px 22px;
+    }
+
+    .path-panel {
+      border: 1px solid rgba(111, 113, 107, 0.12);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .filter-panel {
+      border: 1px solid rgba(70, 92, 124, 0.22);
+      background: #ffffff;
+      box-shadow: inset 4px 0 0 var(--brand);
+    }
+
+    .filter-panel .path-head {
+      align-items: flex-start;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(111, 113, 107, 0.14);
+    }
+
+    .path-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .path-head h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.35;
+      font-weight: 760;
+    }
+
+    .path-head p {
+      max-width: 780px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .path-count {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--brand);
+      background: var(--brand-soft);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .path-line {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .path-step {
+      display: inline-grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid rgba(111, 113, 107, 0.18);
+      border-radius: 8px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.82);
+      cursor: pointer;
+      text-align: left;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .path-step:hover,
+    .path-step:focus-visible {
+      transform: translateY(-1px);
+      border-color: var(--brand);
+      background: #ffffff;
+      outline: none;
+    }
+
+    .path-number {
+      display: grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 6px;
+      color: #ffffff;
+      background: var(--ink);
+      font-size: 11px;
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .path-label {
+      font-size: 13px;
+      font-weight: 760;
+      line-height: 1.3;
+      white-space: normal;
+    }
+
+    .filter-groups {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .filter-group {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .filter-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+      line-height: 1.4;
+    }
+
+    .filter-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .filter-button {
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid rgba(111, 113, 107, 0.18);
+      border-radius: 8px;
+      color: var(--ink);
+      background: #fafafa;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 760;
+      line-height: 1.3;
+      text-align: center;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+    }
+
+    .filter-button:hover,
+    .filter-button:focus-visible {
+      transform: translateY(-1px);
+      border-color: var(--filter-color);
+      outline: none;
+    }
+
+    .filter-button.is-active {
+      color: var(--filter-color);
+      border-color: var(--filter-border);
+      background: var(--filter-soft);
+      box-shadow: inset 0 0 0 1px rgba(111, 113, 107, 0.08);
+    }
+
+    .filter-meta {
+      margin: 16px 0 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #555b67;
+      background: #f6f5f1;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .flow-shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .flow-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 28px 30px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .flow-head h2 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.3;
+      font-weight: 760;
+    }
+
+    .flow-head p {
+      max-width: 860px;
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .flow-stats {
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(92px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--line);
+    }
+
+    .flow-stats span {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .flow-stats strong {
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .flow-map {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 30px;
+      padding: 34px;
+      background: #fbfaf6;
+    }
+
+    .flow-node {
+      position: relative;
+      padding: 28px;
+      border: 1px solid rgba(111, 113, 107, 0.14);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 12px 30px rgba(35, 31, 25, 0.045);
+      overflow: hidden;
+    }
+
+    .flow-node::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--section-accent);
+      opacity: 0.62;
+    }
+
+    .flow-node:nth-child(1) {
+      --section-accent: #6e91b7;
+      --section-soft: rgba(110, 145, 183, 0.11);
+      --card-bg-1: #fbfcfd;
+      --card-bg-2: #f8fbfd;
+      --card-bg-3: #f6f9fb;
+      --card-bg-4: #f4f8fa;
+    }
+
+    .flow-node:nth-child(2) {
+      --section-accent: #c7a06d;
+      --section-soft: rgba(199, 160, 109, 0.11);
+      --card-bg-1: #fffdfb;
+      --card-bg-2: #fffcf8;
+      --card-bg-3: #fffaf4;
+      --card-bg-4: #fff8f0;
+    }
+
+    .flow-node:nth-child(3) {
+      --section-accent: #8b9b75;
+      --section-soft: rgba(139, 155, 117, 0.11);
+      --card-bg-1: #fcfdfb;
+      --card-bg-2: #fafcf8;
+      --card-bg-3: #f8faf4;
+      --card-bg-4: #f5f8ef;
+    }
+
+    .flow-node:nth-child(4) {
+      --section-accent: #9c7aa9;
+      --section-soft: rgba(156, 122, 169, 0.11);
+      --card-bg-1: #fffdfd;
+      --card-bg-2: #fcfafc;
+      --card-bg-3: #faf7fb;
+      --card-bg-4: #f8f4f9;
+    }
+
+    .flow-node:nth-child(5) {
+      --section-accent: #7aa095;
+      --section-soft: rgba(122, 160, 149, 0.11);
+      --card-bg-1: #fcfdfc;
+      --card-bg-2: #fafcfa;
+      --card-bg-3: #f7faf7;
+      --card-bg-4: #f4f8f5;
+    }
+
+    .flow-node:nth-child(6) {
+      --section-accent: #bd8275;
+      --section-soft: rgba(189, 130, 117, 0.11);
+      --card-bg-1: #fffdfc;
+      --card-bg-2: #fdfafa;
+      --card-bg-3: #fbf7f6;
+      --card-bg-4: #faf4f2;
+    }
+
+    .flow-node:nth-child(7) {
+      --section-accent: #6f7c97;
+      --section-soft: rgba(111, 124, 151, 0.11);
+      --card-bg-1: #fcfcfd;
+      --card-bg-2: #fafbfd;
+      --card-bg-3: #f7f9fb;
+      --card-bg-4: #f4f7fa;
+    }
+
+    .node-top {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 22px;
+      row-gap: 10px;
+      align-items: center;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(111, 113, 107, 0.13);
+    }
+
+    .node-index {
+      display: flex;
+      align-items: center;
+      width: 94px;
+      min-height: 70px;
+      padding-right: 18px;
+      border-right: 1px solid rgba(23, 23, 23, 0.14);
+      color: var(--ink);
+      font-size: 54px;
+      line-height: 1;
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .node-copy {
+      min-width: 0;
+    }
+
+    .node-title-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .node-icon {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(111, 113, 107, 0.12);
+      border-radius: 50%;
+      color: var(--section-accent);
+      background: var(--section-soft);
+    }
+
+    .node-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .node-name {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.28;
+      font-weight: 760;
+    }
+
+    .node-description {
+      max-width: 960px;
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .scene-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 360px);
+      justify-content: start;
+      align-items: stretch;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .scene-card {
+      position: relative;
+      width: 100%;
+      min-height: 138px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 17px 17px 16px;
+      border: 1px solid rgba(111, 113, 107, 0.13);
+      border-left: 3px solid var(--level-color);
+      border-radius: 10px;
+      color: var(--ink);
+      background: var(--card-bg, rgba(255, 255, 255, 0.9));
+      text-align: left;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .scene-card:nth-child(4n + 1) {
+      --card-bg: var(--card-bg-1);
+    }
+
+    .scene-card:nth-child(4n + 2) {
+      --card-bg: var(--card-bg-2);
+    }
+
+    .scene-card:nth-child(4n + 3) {
+      --card-bg: var(--card-bg-3);
+    }
+
+    .scene-card:nth-child(4n) {
+      --card-bg: var(--card-bg-4);
+    }
+
+    .scene-card:hover,
+    .scene-card:focus-visible {
+      transform: translateY(-2px);
+      border-color: var(--level-color);
+      background: #ffffff;
+      box-shadow: 0 10px 18px rgba(35, 31, 25, 0.06);
+      outline: none;
+    }
+
+    .scene-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .scene-title {
+      display: block;
+      color: var(--ink);
+      font-size: 14.5px;
+      font-weight: 760;
+      line-height: 1.5;
+    }
+
+    .level-pill {
+      flex: 0 0 auto;
+      max-width: 96px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: var(--level-color);
+      background: var(--level-soft);
+      font-size: 11px;
+      font-weight: 780;
+      line-height: 1.25;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .scene-summary {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .scene-more {
+      color: var(--level-color);
+      font-size: 12px;
+      font-weight: 780;
+    }
+
+    .empty-state {
+      margin: 18px 0 0;
+      padding: 14px 15px;
+      border: 1px dashed rgba(111, 113, 107, 0.28);
+      border-radius: 8px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.58);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .rollout {
+      max-width: 1440px;
+      margin: 30px auto 0;
+      padding: 24px 28px 26px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .rollout h2 {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1.35;
+      font-weight: 760;
+    }
+
+    .rollout p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.85;
+    }
+
+    .rollout p + p {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(111, 113, 107, 0.14);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(37, 35, 31, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-backdrop[hidden] {
+      display: none;
+    }
+
+    .modal {
+      width: min(820px, 100%);
+      max-height: min(84vh, 780px);
+      overflow: auto;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: 0 24px 70px rgba(35, 31, 25, 0.2);
+      animation: modalIn 180ms ease both;
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      z-index: 1;
+    }
+
+    .modal-step {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 5px 9px;
+      border-radius: 6px;
+      color: var(--modal-color);
+      background: var(--modal-soft);
+      font-size: 12px;
+      font-weight: 780;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.32;
+    }
+
+    .modal-summary {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.75;
+    }
+
+    .modal-close {
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(111, 113, 107, 0.24);
+      border-radius: 50%;
+      color: var(--ink);
+      background: #ffffff;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .modal-close:hover,
+    .modal-close:focus-visible {
+      transform: rotate(90deg);
+      background: var(--surface-soft);
+      outline: none;
+    }
+
+    .modal-body {
+      display: grid;
+      gap: 0;
+      padding: 24px 28px 28px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(111, 113, 107, 0.16);
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-label {
+      color: var(--modal-color);
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .detail-value {
+      margin: 0;
+      color: #26332e;
+      font-size: 14.5px;
+      line-height: 1.9;
+    }
+
+    .value-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .value-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--modal-color);
+      background: var(--modal-soft);
+      font-size: 12px;
+      font-weight: 780;
+      line-height: 1.2;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 980px) {
+      h1 {
+        white-space: normal;
+      }
+
+      .stage-guide {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-head,
+      .path-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .flow-stats {
+        width: 100%;
+      }
+
+      .path-line {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .filter-groups {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-map {
+        padding: 24px 18px 28px;
+      }
+
+      .scene-list {
+        grid-template-columns: repeat(auto-fill, 320px);
+      }
+    }
+
+    @media (max-width: 660px) {
+      .hero {
+        padding: 30px 20px 34px;
+      }
+
+      h1 {
+        font-size: 31px;
+        white-space: normal;
+      }
+
+      .page {
+        padding-inline: 14px;
+      }
+
+      .filter-groups {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .path-line {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .path-step {
+        width: 100%;
+      }
+
+      .path-label {
+        white-space: normal;
+      }
+
+      .flow-head {
+        padding: 20px;
+      }
+
+      .flow-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-map {
+        gap: 22px;
+        padding: 22px 14px 26px;
+      }
+
+      .flow-node {
+        padding: 22px 18px;
+      }
+
+      .node-top {
+        column-gap: 14px;
+      }
+
+      .node-index {
+        width: 66px;
+        min-height: 54px;
+        padding-right: 12px;
+        font-size: 36px;
+      }
+
+      .node-name {
+        font-size: 21px;
+      }
+
+      .scene-list {
+        grid-template-columns: 1fr;
+      }
+
+      .rollout {
+        padding: 20px 18px 22px;
+      }
+
+      .modal-backdrop {
+        padding: 12px;
+      }
+
+      .modal {
+        max-height: 88vh;
+      }
+
+      .modal-header {
+        padding: 20px 18px 16px;
+      }
+
+      .modal-title {
+        font-size: 22px;
+      }
+
+      .modal-body {
+        padding: 18px;
+      }
+
+      .detail-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        scroll-behavior: auto !important;
+        transition-duration: 1ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">独立站精品业务 · 运营与设计工作流</p>
+      <h1>BXD 运营与设计 AI + RPA 自动化场景地图</h1>
+      <p class="subtitle">基于运营与设计岗位日常工作流，围绕独立站精品业务中的产品表达、内容增长、自动上品、定制询盘和运营复盘，梳理可逐步落地的自动化机会。</p>
+      <p class="hint">点击任意场景卡片，可查看业务背景、典型工作事项、自动化工作流、业务价值、RPA 分工、AI 分工和适合阶段。</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="stage-guide" aria-label="自动化阶段说明">
+      <article class="stage-card" style="--level-color: var(--l1); --level-soft: var(--l1-soft);">
+        <span class="stage-code">L1 基础提效</span>
+        <h2>高频重复动作自动化</h2>
+        <p>将下载、复制、整理、归档、检查、提醒等高频重复动作自动化，减少人工操作。</p>
+      </article>
+      <article class="stage-card" style="--level-color: var(--l2); --level-soft: var(--l2-soft);">
+        <span class="stage-code">L2 流程串联</span>
+        <h2>跨环节信息流转清楚</h2>
+        <p>将产品资料、设计素材、上品、询盘、交接和跟进等环节串联起来，让信息流转更清楚。</p>
+      </article>
+      <article class="stage-card" style="--level-color: var(--l3); --level-soft: var(--l3-soft);">
+        <span class="stage-code">L3 管理增强</span>
+        <h2>沉淀数据辅助判断</h2>
+        <p>基于沉淀数据形成分析、复盘、看板和优化建议，辅助运营负责人判断重点。</p>
+      </article>
+    </section>
+
+    <section class="map-tools" aria-label="主链路与筛选">
+      <article class="path-panel">
+        <div class="path-head">
+          <div>
+            <h2>运营与设计自动化主链路</h2>
+            <p>围绕独立站产品表达、内容增长、自动上品、定制询盘、订单跟进和运营复盘展开。</p>
+          </div>
+          <span class="path-count">7 个业务节点</span>
+        </div>
+        <div class="path-line" id="pathLine" aria-label="七个业务节点"></div>
+      </article>
+
+      <article class="filter-panel">
+        <div class="path-head">
+          <div>
+            <h2>筛选自动化场景</h2>
+            <p>按自动化阶段和部门口径组合筛选，快速定位运营、设计或协作场景。</p>
+          </div>
+          <span class="path-count">筛选维度：阶段 + 部门</span>
+        </div>
+        <div class="filter-groups">
+          <div class="filter-group">
+            <span class="filter-label">自动化阶段</span>
+            <div class="filter-controls" id="levelFilterControls" aria-label="按自动化阶段筛选"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">部门口径</span>
+            <div class="filter-controls" id="departmentFilterControls" aria-label="按部门口径筛选"></div>
+          </div>
+        </div>
+        <p class="filter-meta" id="filterMeta"></p>
+      </article>
+    </section>
+
+    <section class="flow-shell" aria-labelledby="flow-title">
+      <div class="flow-head">
+        <div>
+          <h2 id="flow-title">客户现场自动化机会地图</h2>
+          <p>场景从运营与设计的日常职责中抽象出来，重点服务独立站精品业务、定制品场景、产品表达、SEO 内容、自动上品、询盘承接和运营复盘。</p>
+        </div>
+        <div class="flow-stats" aria-label="地图统计">
+          <span><strong id="nodeCount">7</strong>业务节点</span>
+          <span><strong id="sceneCount">27</strong>自动化场景</span>
+        </div>
+      </div>
+      <div class="flow-map" id="flowMap" aria-label="运营与设计场景地图"></div>
+    </section>
+
+    <section class="rollout" aria-labelledby="rollout-title">
+      <h2 id="rollout-title">建议推进方式</h2>
+      <p>建议先选择 1 到 2 个高频、低风险、容易验证的样板场景跑通，再逐步扩展到产品页建设、询盘转化和运营复盘。</p>
+      <p>前期优先解决内容生产、自动上品、询盘归集和日报生成；中期推进定制需求结构化和订单跟进；后期沉淀运营数据大盘和询盘质量分析。</p>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="sceneModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <span class="modal-step" id="modalStep"></span>
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <p class="modal-summary" id="modalSummary"></p>
+        </div>
+        <button class="modal-close" type="button" id="modalClose" aria-label="关闭详情">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </section>
+  </div>
+
+  <script>
+    const nodes = [
+      {
+        id: "01",
+        title: "产品资料 + 设计素材",
+        icon: "assets",
+        description: "产品资料和设计素材是独立站产品页建设的基础。通过自动化整理产品信息、图片素材、视频素材和设计资料，可以减少上新前的资料准备成本，提高页面内容的一致性和完整度。"
+      },
+      {
+        id: "02",
+        title: "产品页建设",
+        icon: "page",
+        description: "产品页是独立站承接客户的核心入口。自动化可以帮助运营和设计团队提升上品效率、页面完整度和多站点维护效率。"
+      },
+      {
+        id: "03",
+        title: "SEO 内容增长",
+        icon: "seo",
+        description: "独立站增长依赖持续内容建设和 SEO 优化。通过 AI 辅助生成、改写和诊断内容，可以提升内容生产效率，并支撑自然流量和询盘增长。"
+      },
+      {
+        id: "04",
+        title: "询盘转化",
+        icon: "inquiry",
+        description: "询盘是独立站业务的重要转化节点。自动化可以帮助运营团队归集客户咨询、识别客户意图、提醒跟进，并提升回复效率。"
+      },
+      {
+        id: "05",
+        title: "定制需求交接",
+        icon: "custom",
+        description: "定制品业务中，客户自然语言需求需要被整理成内部可报价、可设计、可供应链处理的信息。该环节是运营、客服、设计和供应链之间的关键交接点。"
+      },
+      {
+        id: "06",
+        title: "订单跟进",
+        icon: "order",
+        description: "运营和客服在成交前后会持续跟进订单状态、成品图、尾款、地址、派送和物流问题。自动化可以帮助减少漏跟和重复查询。"
+      },
+      {
+        id: "07",
+        title: "数据复盘",
+        icon: "chart",
+        description: "运营数据复盘帮助负责人看到站点表现、内容效果、询盘质量和成交转化。自动化可以减少人工下载报表，并辅助形成经营分析。"
+      }
+    ];
+
+    const levelMeta = {
+      L1: {
+        label: "L1 基础提效",
+        color: "#4778bf",
+        soft: "#eef4fc"
+      },
+      L2: {
+        label: "L2 流程串联",
+        color: "#d48739",
+        soft: "#fff4e7"
+      },
+      L3: {
+        label: "L3 管理增强",
+        color: "#8f62b0",
+        soft: "#f6eef9"
+      }
+    };
+
+    const departmentMeta = {
+      all: {
+        label: "全部部门",
+        color: "#171717",
+        soft: "#f6f5f1",
+        border: "#d8d3c8"
+      },
+      operation: {
+        label: "运营场景",
+        color: "#465c7c",
+        soft: "#eff3f7",
+        border: "#cdd6e2",
+        match: (scene) => scene.departments.includes("运营")
+      },
+      design: {
+        label: "设计场景",
+        color: "#8f62b0",
+        soft: "#f6eef9",
+        border: "#decbe7",
+        match: (scene) => scene.departments.includes("设计")
+      },
+      collaboration: {
+        label: "协作场景",
+        color: "#d48739",
+        soft: "#fff4e7",
+        border: "#efd4b5",
+        match: (scene) => scene.departments.includes("运营") && scene.departments.includes("设计")
+      }
+    };
+
+    const iconPaths = {
+      assets: '<path d="M4 7.5h6l2 2h8v9.5H4z"/><path d="M4 11h16"/><path d="M8 15h3"/><path d="M14 15h2"/>',
+      page: '<path d="M7 4.5h7l3 3V20H7z"/><path d="M14 4.5V8h3"/><path d="M10 12h4"/><path d="M10 15.5h5"/>',
+      seo: '<circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4.5 4.5"/><path d="M8.5 10.7 10 12.2l3-3.4"/>',
+      inquiry: '<path d="M5 6.5h14v9H9l-4 3z"/><path d="M8.5 10h7"/><path d="M8.5 13h4.5"/>',
+      custom: '<path d="M5 19V7l7-3 7 3v12z"/><path d="M8 11h8"/><path d="M8 15h5"/><path d="M12 4v15"/>',
+      order: '<path d="M7 5h10v15H7z"/><path d="M10 8h4"/><path d="M10 12h4"/><path d="M10 16h3"/>',
+      chart: '<path d="M5 19V5"/><path d="M5 19h15"/><path d="M9 16v-4"/><path d="M13 16V8"/><path d="M17 16v-6"/>'
+    };
+
+    const scenes = [
+      {
+        id: "01",
+        node: "产品资料 + 设计素材",
+        title: "产品资料结构化",
+        level: "L1",
+        departments: ["运营", "设计"],
+        summary: "将产品标题、规格、材质、尺寸、颜色、图片、描述等资料整理成标准字段。",
+        background: "产品资料分散在表格、文件夹、聊天记录和图片素材中，人工整理后才能用于上品、页面维护和内容生成。",
+        typicalTasks: "整理产品标题、规格、尺寸、材质、图片、描述、价格、SEO 字段。",
+        workflow: "读取产品资料来源，提取关键字段，按产品上架模板整理成结构化表格。",
+        businessValue: ["省时", "降错", "交接标准化"],
+        rpa: "读取表格、文件夹和系统中的产品资料，整理到标准模板。",
+        ai: "提取产品关键信息，补全文案字段，识别缺失项和异常字段。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "02",
+        node: "产品资料 + 设计素材",
+        title: "图片/视频素材自动归档",
+        level: "L1",
+        departments: ["运营", "设计"],
+        summary: "按产品、用途、站点和素材类型自动整理图片、视频、工厂图、成品图和案例图。",
+        background: "设计和运营素材分散，查找和复用成本高，容易影响上品、SEO 页面和社媒内容制作。",
+        typicalTasks: "产品图归档、视频素材整理、工厂图整理、成品图整理、好评图和案例图归档。",
+        workflow: "扫描素材文件，按产品名、SKU、文件类型和使用场景分类归档。",
+        businessValue: ["省时", "提效", "交接标准化"],
+        rpa: "扫描文件夹，识别文件名，移动文件，更新素材清单。",
+        ai: "识别图片内容和用途，辅助判断主图、场景图、细节图、案例图等素材类型。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "03",
+        node: "产品资料 + 设计素材",
+        title: "产品页素材包整理",
+        level: "L2",
+        departments: ["运营", "设计"],
+        summary: "为每个产品自动整理上品所需的图文素材包。",
+        background: "上品前需要准备产品图、场景图、细节图、规格图、描述文案和 SEO 信息，人工整理容易漏项。",
+        typicalTasks: "整理产品图、页面图、规格图、工厂图、产品说明和上品素材。",
+        workflow: "按产品维度汇总图片、视频、描述、参数和 SEO 字段，生成产品页素材包。",
+        businessValue: ["省时", "降错", "提效"],
+        rpa: "收集文件、整理素材包、更新产品资料表。",
+        ai: "判断素材是否完整，生成素材缺失清单和页面使用建议。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "04",
+        node: "产品资料 + 设计素材",
+        title: "图片规格与清晰度检查",
+        level: "L1",
+        departments: ["设计"],
+        summary: "自动检查图片尺寸、清晰度、格式、命名和页面适配情况。",
+        background: "产品页图片质量影响页面专业度和转化效果，人工逐张检查效率低。",
+        typicalTasks: "检查图片尺寸、清晰度、命名、格式、页面图片适配。",
+        workflow: "批量读取图片文件，检查尺寸、格式、命名规则和清晰度，输出异常清单。",
+        businessValue: ["降错", "省时", "提效"],
+        rpa: "批量读取图片文件，检测尺寸、格式和命名规则。",
+        ai: "辅助判断图片内容是否匹配产品、是否适合作为主图或场景图。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "05",
+        node: "产品页建设",
+        title: "自动上品辅助",
+        level: "L2",
+        departments: ["运营", "设计"],
+        summary: "将整理好的产品资料自动发布到独立站后台或电商平台后台。",
+        background: "上品涉及标题、图片、描述、价格、规格、SEO 字段等多个环节，人工录入耗时且容易出错。",
+        typicalTasks: "Shopify 上品、产品页发布、产品资料录入、图片上传、SEO 字段填写。",
+        workflow: "读取产品资料表和素材包，自动填写后台字段，上传图片并保存草稿或发布页面。",
+        businessValue: ["省时", "降错", "提效"],
+        rpa: "登录后台，填写字段，上传图片，保存草稿或发布产品页。",
+        ai: "生成标题、描述、卖点、FAQ 和 SEO 字段，辅助检查字段完整性。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "06",
+        node: "产品页建设",
+        title: "产品页字段补全",
+        level: "L1",
+        departments: ["运营", "设计"],
+        summary: "自动补全产品页所需的标题、描述、规格、FAQ、SEO 标题和 Meta 描述。",
+        background: "产品页字段多，尤其是定制类产品，需要更完整地解释材质、尺寸、安装和适用场景。",
+        typicalTasks: "填产品标题、产品描述、规格参数、SEO 标题、Meta 描述、FAQ。",
+        workflow: "读取产品资料，生成页面字段草稿，标记待人工确认的内容。",
+        businessValue: ["提效", "降错", "交接标准化"],
+        rpa: "",
+        ai: "根据产品资料生成页面字段，补全卖点、规格说明、FAQ 和 SEO 文案。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "07",
+        node: "产品页建设",
+        title: "产品页完整性检查",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动检查产品页是否缺标题、图片、价格、描述、规格、SEO 字段或链接。",
+        background: "多站点产品页维护中，页面缺字段、图片失效、链接异常会影响客户体验和询盘转化。",
+        typicalTasks: "检查产品页、检查链接、检查图片、检查 SEO 字段、检查页面内容完整性。",
+        workflow: "定期扫描产品页，检查字段、图片、链接和 SEO 信息，生成异常页面清单。",
+        businessValue: ["降错", "风险预警", "提效"],
+        rpa: "批量访问页面，检查页面字段、链接和图片加载状态。",
+        ai: "判断页面内容是否完整，识别描述缺失、FAQ 缺失和信息表达不足。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "08",
+        node: "产品页建设",
+        title: "多站点产品内容同步",
+        level: "L2",
+        departments: ["运营"],
+        summary: "将同类产品内容在多个独立站之间同步、改写和维护。",
+        background: "独立站数量较多时，产品内容维护容易重复，且不同站点可能需要差异化表达。",
+        typicalTasks: "多独立站产品页维护、内容同步、产品描述改写、页面更新。",
+        workflow: "读取源站产品内容，生成目标站内容版本，辅助同步到不同站点。",
+        businessValue: ["省时", "提效", "交接标准化"],
+        rpa: "读取页面内容，填写目标站后台字段，更新页面。",
+        ai: "生成差异化改写版本，调整标题、描述、FAQ 和 SEO 字段。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "09",
+        node: "SEO 内容增长",
+        title: "博客/网站文章自动生成",
+        level: "L1",
+        departments: ["运营"],
+        summary: "围绕产品、材质、安装、选购指南和使用场景生成博客或网站文章。",
+        background: "独立站需要持续更新内容来覆盖长尾关键词、教育客户并提升自然流量。",
+        typicalTasks: "写博客、写网站文章、更新页面文案、维护 SEO 内容。",
+        workflow: "输入产品方向、关键词和文章主题，生成文章草稿并辅助改写。",
+        businessValue: ["提效", "省时", "辅助判断"],
+        rpa: "",
+        ai: "生成博客、网站文章、选购指南、安装说明和产品知识内容。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "10",
+        node: "SEO 内容增长",
+        title: "产品 FAQ 自动生成",
+        level: "L1",
+        departments: ["运营"],
+        summary: "根据产品特点和客户常见问题，生成产品页 FAQ。",
+        background: "定制类产品咨询问题多，FAQ 可以降低重复答疑成本，也能提升产品页解释能力。",
+        typicalTasks: "整理客户常见问题、产品专业问题、定制问答、页面 FAQ。",
+        workflow: "读取产品信息和客户问题，生成 FAQ 草稿，并按产品页格式整理。",
+        businessValue: ["提效", "降错", "省时"],
+        rpa: "",
+        ai: "提炼客户常见问题，生成 FAQ、答案草稿和页面展示文案。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "11",
+        node: "SEO 内容增长",
+        title: "SEO 页面解析与优化建议",
+        level: "L2",
+        departments: ["运营"],
+        summary: "自动解析网站页面，并生成标题、描述、关键词和内容结构优化建议。",
+        background: "客户已明确希望优化 SEO，独立站业务需要持续检查页面质量和关键词覆盖。",
+        typicalTasks: "解析网站、优化 SEO、检查标题、检查描述、检查关键词、优化页面。",
+        workflow: "批量读取网页内容，分析页面标题、Meta 描述、H 标签、关键词和正文结构，输出优化建议。",
+        businessValue: ["辅助判断", "提效", "管理复盘"],
+        rpa: "批量读取网页页面，采集页面标题、描述、链接和正文内容。",
+        ai: "分析页面 SEO 问题，生成标题、描述、关键词、内容结构和优化建议。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "12",
+        node: "SEO 内容增长",
+        title: "关键词与选题建议",
+        level: "L2",
+        departments: ["运营"],
+        summary: "根据产品、材质、应用场景和客户问题生成关键词和内容选题。",
+        background: "内容增长需要稳定选题来源，人工找关键词和选题容易分散。",
+        typicalTasks: "关键词整理、文章选题、SEO 内容规划、产品内容策划。",
+        workflow: "输入产品方向和目标市场，生成关键词、长尾问题和内容选题清单。",
+        businessValue: ["辅助判断", "提效", "管理复盘"],
+        rpa: "",
+        ai: "生成关键词建议、长尾问题、文章选题和内容规划方向。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "13",
+        node: "询盘转化",
+        title: "多渠道询盘归集",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动汇总 QQ、邮箱、Gmail、表单、电话等渠道的客户询盘。",
+        background: "询盘入口分散，人工查看容易遗漏，影响客户响应速度和线索转化。",
+        typicalTasks: "查看 QQ、邮箱、Gmail、表单客户、电话询盘、客户咨询记录。",
+        workflow: "定时读取各渠道询盘，统一写入询盘表，并标记来源、时间和处理状态。",
+        businessValue: ["省时", "降错", "提效"],
+        rpa: "登录或读取询盘渠道，抓取消息和邮件内容，写入询盘表。",
+        ai: "识别询盘主题、客户意图和基本产品需求。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "14",
+        node: "询盘转化",
+        title: "客户意图识别",
+        level: "L2",
+        departments: ["运营"],
+        summary: "自动判断客户是在咨询价格、尺寸、材质、安装、交期、物流还是售后。",
+        background: "定制类产品问题复杂，客户表达不固定，人工判断和分派成本高。",
+        typicalTasks: "判断客户问题、整理客户咨询、区分产品问题、报价问题、物流问题。",
+        workflow: "读取客户消息，识别意图类别，标记处理方向和建议负责人。",
+        businessValue: ["提效", "交接标准化", "降错"],
+        rpa: "",
+        ai: "识别客户意图，归类问题类型，生成处理建议。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "15",
+        node: "询盘转化",
+        title: "询盘跟进提醒",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动提醒未回复、待跟进、历史客户和高意向客户。",
+        background: "定制产品成交周期较长，跟进节奏不稳定容易造成线索流失。",
+        typicalTasks: "跟进历史客户、回复询盘、提醒未回复客户、跟进报价客户。",
+        workflow: "根据询盘状态和时间节点生成待跟进清单，提醒负责人处理。",
+        businessValue: ["省时", "风险预警", "提效"],
+        rpa: "读取询盘表和跟进记录，生成提醒清单并推送。",
+        ai: "生成跟进建议和回复方向。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "16",
+        node: "询盘转化",
+        title: "客户回复草稿生成",
+        level: "L1",
+        departments: ["运营"],
+        summary: "根据客户问题生成邮件、QQ 或站内消息回复草稿。",
+        background: "客户问题涉及产品、尺寸、材质、交期和安装，客服回复依赖个人经验。",
+        typicalTasks: "邮件回复、QQ 回复、Gmail 回复、客户问题回复。",
+        workflow: "读取客户问题和产品信息，生成英文或中文回复草稿，由人工确认后发送。",
+        businessValue: ["提效", "降错", "省时"],
+        rpa: "",
+        ai: "生成客户回复草稿，补充专业表达，提示需人工确认的信息。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "17",
+        node: "定制需求交接",
+        title: "定制参数自动提取",
+        level: "L2",
+        departments: ["运营", "设计"],
+        summary: "从客户对话中提取尺寸、材质、颜色、安装方式、使用场景等定制字段。",
+        background: "定制品属性多，需要逐一核对，人工从对话中提取信息容易遗漏。",
+        typicalTasks: "提取尺寸、材质、颜色、安装方式、使用场景、交期等信息。",
+        workflow: "读取客户聊天或邮件内容，识别产品品类和关键定制字段，生成结构化信息表。",
+        businessValue: ["降错", "交接标准化", "提效"],
+        rpa: "",
+        ai: "从自然语言中提取定制参数，识别已提供信息和待确认信息。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "18",
+        node: "定制需求交接",
+        title: "缺失信息检查",
+        level: "L2",
+        departments: ["运营", "设计"],
+        summary: "自动检查报价或下单前的关键信息是否完整。",
+        background: "客户信息不完整会导致供应链、设计或报价环节反复补问，影响响应效率。",
+        typicalTasks: "检查尺寸、材质、颜色、地址、安装方式、交期、报价信息是否完整。",
+        workflow: "对照品类字段模板，检查询盘信息缺失项，生成补充清单。",
+        businessValue: ["降错", "提效", "交接标准化"],
+        rpa: "",
+        ai: "根据品类模板判断缺失字段，生成补充清单。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "19",
+        node: "定制需求交接",
+        title: "追问清单生成",
+        level: "L2",
+        departments: ["运营", "设计"],
+        summary: "根据缺失信息自动生成需要继续向客户确认的问题。",
+        background: "客户需求表达不完整时，客服需要反复判断下一步该问什么。",
+        typicalTasks: "追问尺寸、材质、颜色、安装环境、预算、交期和运输要求。",
+        workflow: "读取已提取字段和缺失项，生成面向客户的追问问题。",
+        businessValue: ["提效", "降错", "省时"],
+        rpa: "",
+        ai: "根据缺失字段生成自然、专业的追问清单和回复话术。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "20",
+        node: "定制需求交接",
+        title: "询盘转内部交接单",
+        level: "L2",
+        departments: ["运营", "设计"],
+        summary: "将客户对话整理成供应链、设计、报价可接收的内部交接单。",
+        background: "会议中提到，客户对话信息需要整理后填表，再交给供应链下单或处理。该环节存在登记格式不统一的问题。",
+        typicalTasks: "客户登记、询盘整理、供应链交接、报价需求整理、图纸需求整理。",
+        workflow: "读取客户对话、提取字段、生成统一交接单，标记需供应链、设计或报价确认的内容。",
+        businessValue: ["交接标准化", "降错", "提效"],
+        rpa: "将生成的交接单写入表格或协作系统。",
+        ai: "整理客户需求，生成标准交接单，标记需人工确认事项。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "21",
+        node: "订单跟进",
+        title: "订单交期跟进",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动汇总待跟进订单和交期状态，提醒负责人处理。",
+        background: "客户会持续询问交期，人工查询供应链反馈和订单状态耗时。",
+        typicalTasks: "跟进订单交期、供应链反馈、客户催单、订单状态。",
+        workflow: "读取订单表和交期信息，生成待跟进清单，并推送提醒。",
+        businessValue: ["省时", "风险预警", "提效"],
+        rpa: "读取订单状态和交期表，生成提醒并推送。",
+        ai: "总结交期状态，生成客户沟通参考话术。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "22",
+        node: "订单跟进",
+        title: "成品图确认与尾款提醒",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动提醒成品图确认、尾款链接发送和客户确认状态。",
+        background: "定制品交付前常涉及成品图确认和尾款处理，人工跟进容易遗漏。",
+        typicalTasks: "成品图确认、尾款链接、催付、客户确认、内部同步。",
+        workflow: "读取订单节点，识别待确认和待付款订单，生成提醒清单。",
+        businessValue: ["省时", "风险预警", "提效"],
+        rpa: "读取订单节点、生成提醒清单、推送负责人。",
+        ai: "生成客户确认和付款提醒话术。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "23",
+        node: "订单跟进",
+        title: "地址与派送问题提醒",
+        level: "L2",
+        departments: ["运营"],
+        summary: "自动识别地址、派送和物流异常问题，减少人工排查。",
+        background: "地址和派送问题会影响订单交付，人工发现晚容易造成客户体验问题。",
+        typicalTasks: "地址异常、派送问题、订单异常、物流问题。",
+        workflow: "读取订单和物流信息，识别地址缺失、派送异常或状态异常，生成处理清单。",
+        businessValue: ["降错", "风险预警", "提效"],
+        rpa: "读取订单和物流状态，生成异常清单。",
+        ai: "识别异常类型，生成处理建议和客户沟通草稿。",
+        stage: "L2 流程串联"
+      },
+      {
+        id: "24",
+        node: "数据复盘",
+        title: "Shopify 数据日报",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动汇总 Shopify 后台销售、订单、流量和产品表现数据。",
+        background: "运营需要定期查看 Shopify 后台数据，人工下载和整理耗时。",
+        typicalTasks: "查看 Shopify 后台数据、销售数据、订单数据、产品表现。",
+        workflow: "定时读取 Shopify 数据，生成运营日报。",
+        businessValue: ["省时", "管理复盘", "提效"],
+        rpa: "登录或读取 Shopify 数据，下载报表，更新日报。",
+        ai: "总结关键变化，提示异常波动和重点产品表现。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "25",
+        node: "数据复盘",
+        title: "广告数据日报",
+        level: "L1",
+        departments: ["运营"],
+        summary: "自动汇总广告花费、点击、转化和询盘相关数据。",
+        background: "广告数据需要和站点表现、询盘质量一起看，人工整理多个后台耗时。",
+        typicalTasks: "查看广告数据、谷歌广告数据、投放数据、花费和转化。",
+        workflow: "定时读取广告后台数据，生成广告日报或周报。",
+        businessValue: ["省时", "管理复盘", "辅助判断"],
+        rpa: "读取广告后台数据，下载报表，更新日报。",
+        ai: "总结广告表现，提示异常花费、异常波动和优化方向。",
+        stage: "L1 基础提效"
+      },
+      {
+        id: "26",
+        node: "数据复盘",
+        title: "询盘质量分析",
+        level: "L3",
+        departments: ["运营"],
+        summary: "分析不同站点、产品、来源带来的询盘质量和转化情况。",
+        background: "独立站不能只看流量，还要看有效询盘和后续转化质量。",
+        typicalTasks: "询盘来源、有效询盘、报价转化、客户质量、站点表现。",
+        workflow: "汇总询盘来源、客户意图、跟进结果和转化状态，形成分析结果。",
+        businessValue: ["辅助判断", "管理复盘", "提效"],
+        rpa: "",
+        ai: "分析询盘质量、来源表现、客户意图和转化风险。",
+        stage: "L3 管理增强"
+      },
+      {
+        id: "27",
+        node: "数据复盘",
+        title: "运营数据大盘",
+        level: "L3",
+        departments: ["运营"],
+        summary: "汇总站点、内容、广告、询盘、订单和转化数据，形成运营负责人看板。",
+        background: "客户已明确提出运营数据大盘需求，独立站业务需要统一查看多站点和多指标表现。",
+        typicalTasks: "运营数据大盘、业绩数据、站点数据、广告数据、询盘数据、订单数据。",
+        workflow: "定时采集多系统数据，清洗合并后生成大盘，并输出重点变化。",
+        businessValue: ["管理复盘", "辅助判断", "风险预警"],
+        rpa: "采集 Shopify、广告、订单和表格数据，更新看板数据源。",
+        ai: "解读经营变化，生成日报摘要、异常提醒和优化建议。",
+        stage: "L3 管理增强"
+      }
+    ];
+
+    const flowMap = document.getElementById("flowMap");
+    const pathLine = document.getElementById("pathLine");
+    const levelFilterControls = document.getElementById("levelFilterControls");
+    const departmentFilterControls = document.getElementById("departmentFilterControls");
+    const filterMeta = document.getElementById("filterMeta");
+    const modal = document.getElementById("sceneModal");
+    const modalStep = document.getElementById("modalStep");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalSummary = document.getElementById("modalSummary");
+    const modalBody = document.getElementById("modalBody");
+    const modalClose = document.getElementById("modalClose");
+    let lastFocusedElement = null;
+    let activeLevel = "all";
+    let activeDepartment = "all";
+
+    function createElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text) element.textContent = text;
+      return element;
+    }
+
+    function createIcon(name) {
+      const wrapper = document.createElement("span");
+      wrapper.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${iconPaths[name] || iconPaths.page}</svg>`;
+      return wrapper.firstElementChild;
+    }
+
+    function renderPathLine() {
+      pathLine.replaceChildren();
+
+      nodes.forEach((node) => {
+        const button = createElement("button", "path-step");
+        button.type = "button";
+        button.setAttribute("aria-label", `定位到${node.title}`);
+        button.append(
+          createElement("span", "path-number", node.id),
+          createElement("span", "path-label", node.title)
+        );
+        button.addEventListener("click", () => {
+          const target = flowMap.querySelector(`[data-node="${node.title}"]`);
+          if (target) target.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+        pathLine.appendChild(button);
+      });
+    }
+
+    function renderFilterGroup(container, filters, activeValue, onSelect) {
+      container.replaceChildren();
+
+      filters.forEach((filter) => {
+        const button = createElement("button", "filter-button", filter.label);
+        button.type = "button";
+        button.style.setProperty("--filter-color", filter.color);
+        button.style.setProperty("--filter-soft", filter.soft);
+        button.style.setProperty("--filter-border", filter.border || filter.color);
+        button.setAttribute("aria-pressed", String(activeValue === filter.value));
+        if (activeValue === filter.value) button.classList.add("is-active");
+        button.addEventListener("click", () => onSelect(filter.value));
+        container.appendChild(button);
+      });
+    }
+
+    function renderFilterControls() {
+      const levelFilters = [
+        { value: "all", label: "全部阶段", color: "#171717", soft: "#f6f5f1", border: "#d8d3c8" },
+        { value: "L1", label: levelMeta.L1.label, color: levelMeta.L1.color, soft: levelMeta.L1.soft, border: "#c9d7eb" },
+        { value: "L2", label: levelMeta.L2.label, color: levelMeta.L2.color, soft: levelMeta.L2.soft, border: "#efd4b5" },
+        { value: "L3", label: levelMeta.L3.label, color: levelMeta.L3.color, soft: levelMeta.L3.soft, border: "#decbe7" }
+      ];
+
+      const departmentFilters = [
+        { value: "all", ...departmentMeta.all },
+        { value: "operation", ...departmentMeta.operation },
+        { value: "design", ...departmentMeta.design },
+        { value: "collaboration", ...departmentMeta.collaboration }
+      ];
+
+      renderFilterGroup(levelFilterControls, levelFilters, activeLevel, (value) => {
+        activeLevel = value;
+        renderFilterControls();
+        renderFlowMap();
+      });
+
+      renderFilterGroup(departmentFilterControls, departmentFilters, activeDepartment, (value) => {
+        activeDepartment = value;
+        renderFilterControls();
+        renderFlowMap();
+      });
+    }
+
+    function getVisibleScenes() {
+      return scenes.filter((scene) => {
+        const matchesLevel = activeLevel === "all" || scene.level === activeLevel;
+        const department = departmentMeta[activeDepartment];
+        const matchesDepartment = activeDepartment === "all" || department.match(scene);
+        return matchesLevel && matchesDepartment;
+      });
+    }
+
+    function updateFilterMeta(visibleSceneCount) {
+      const levelLabel = activeLevel === "all" ? "全部阶段" : levelMeta[activeLevel].label;
+      const departmentLabel = departmentMeta[activeDepartment].label;
+      filterMeta.textContent = `筛选结果：${levelLabel} / ${departmentLabel}，当前显示 ${visibleSceneCount} 个场景。`;
+    }
+
+    function renderFlowMap() {
+      flowMap.replaceChildren();
+      const visibleScenes = getVisibleScenes();
+      document.getElementById("nodeCount").textContent = nodes.length;
+      document.getElementById("sceneCount").textContent = visibleScenes.length;
+      updateFilterMeta(visibleScenes.length);
+
+      nodes.forEach((node, index) => {
+        const nodeScenes = visibleScenes.filter((scene) => scene.node === node.title);
+        const article = createElement("article", "flow-node");
+        article.dataset.node = node.title;
+        article.style.setProperty("--node-index", index);
+
+        const top = createElement("div", "node-top");
+        const indexBadge = createElement("span", "node-index", node.id);
+        const titleWrap = createElement("div", "node-copy");
+        const titleLine = createElement("div", "node-title-line");
+        const icon = createElement("span", "node-icon");
+        icon.appendChild(createIcon(node.icon));
+        titleLine.append(icon, createElement("h2", "node-name", node.title));
+        titleWrap.append(
+          titleLine,
+          createElement("p", "node-description", node.description)
+        );
+        top.append(indexBadge, titleWrap);
+
+        const list = createElement("div", "scene-list");
+        nodeScenes.forEach((scene) => {
+          const meta = levelMeta[scene.level];
+          const card = createElement("button", "scene-card");
+          card.type = "button";
+          card.setAttribute("aria-label", `${scene.node}：${scene.title}，${meta.label}，查看详情`);
+          card.style.setProperty("--level-color", meta.color);
+          card.style.setProperty("--level-soft", meta.soft);
+
+          const head = createElement("span", "scene-head");
+          head.append(
+            createElement("span", "scene-title", scene.title),
+            createElement("span", "level-pill", meta.label)
+          );
+
+          card.append(
+            head,
+            createElement("span", "scene-summary", scene.summary),
+            createElement("span", "scene-more", "查看详情")
+          );
+          card.addEventListener("click", () => openModal(scene));
+          list.appendChild(card);
+        });
+
+        article.append(top);
+        if (nodeScenes.length > 0) {
+          article.appendChild(list);
+        } else {
+          article.appendChild(createElement("p", "empty-state", "当前筛选下暂无场景。"));
+        }
+        flowMap.appendChild(article);
+      });
+    }
+
+    function openModal(scene) {
+      const meta = levelMeta[scene.level];
+      lastFocusedElement = document.activeElement;
+      modalStep.textContent = `${scene.id} · ${scene.node} · ${meta.label}`;
+      modalStep.style.setProperty("--modal-color", meta.color);
+      modalStep.style.setProperty("--modal-soft", meta.soft);
+      modalTitle.textContent = scene.title;
+      modalSummary.textContent = scene.summary;
+      modalBody.style.setProperty("--modal-color", meta.color);
+      modalBody.replaceChildren();
+
+      const details = [
+        ["业务背景", scene.background],
+        ["典型工作事项", scene.typicalTasks],
+        ["主要自动化工作流", scene.workflow],
+        ["业务价值", scene.businessValue, "tags"],
+        ["RPA 分工", scene.rpa],
+        ["AI 分工", scene.ai],
+        ["适合阶段", scene.stage]
+      ].filter(([, value]) => Array.isArray(value) ? value.length > 0 : Boolean(value));
+
+      details.forEach(([label, value, type]) => {
+        const row = createElement("div", "detail-row");
+        row.appendChild(createElement("div", "detail-label", label));
+
+        if (type === "tags") {
+          const tagWrap = createElement("div", "value-tags");
+          value.forEach((item) => tagWrap.appendChild(createElement("span", "value-tag", item)));
+          row.appendChild(tagWrap);
+        } else {
+          row.appendChild(createElement("p", "detail-value", value));
+        }
+
+        modalBody.appendChild(row);
+      });
+
+      modal.hidden = false;
+      document.body.classList.add("modal-open");
+      modalClose.focus();
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.classList.remove("modal-open");
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) closeModal();
+    });
+
+    renderPathLine();
+    renderFilterControls();
+    renderFlowMap();
+  </script>
+</body>
+</html>
