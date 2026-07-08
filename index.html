@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>跨境电商供应链自动化场景地图 · v2 流程阶段版</title>
+  <title>BXD供应链 AI + RPA 自动化场景地图 · v3</title>
   <style>
     :root {
-      --paper: #f7f7f2;
+      --paper: #f6f5f0;
       --surface: #ffffff;
-      --surface-soft: #f1f1ec;
+      --surface-soft: #f2f1ec;
       --ink: #151515;
-      --muted: #70736d;
-      --line: #e4e2da;
-      --accent: #5b79d6;
-      --accent-dark: #304789;
-      --accent-soft: #eef2ff;
-      --gold: #e5a044;
-      --violet: #a85aa2;
-      --l1: #5b79d6;
-      --l2: #e5a044;
-      --l3: #a85aa2;
-      --l1-soft: #eef2ff;
-      --l2-soft: #fff3df;
-      --l3-soft: #f8edf7;
-      --flow-line: #cbc7bb;
-      --shadow: 0 10px 28px rgba(33, 31, 26, 0.06);
+      --muted: #72746e;
+      --line: #e3e0d8;
+      --accent: #6378ae;
+      --accent-dark: #394668;
+      --accent-soft: #f1f3f9;
+      --gold: #c89451;
+      --violet: #9b75a6;
+      --l1: #6378ae;
+      --l2: #c89451;
+      --l3: #9b75a6;
+      --l1-soft: #f2f4fa;
+      --l2-soft: #fbf3e8;
+      --l3-soft: #f7f2f8;
+      --flow-line: #d2cec3;
+      --shadow: 0 10px 26px rgba(33, 31, 26, 0.045);
     }
 
     * {
@@ -40,7 +40,7 @@
       min-height: 100vh;
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
-      background: #f7f7f2;
+      background: var(--paper);
     }
 
     body.modal-open {
@@ -53,7 +53,7 @@
 
     .hero {
       color: var(--ink);
-      background: #fbfbf7;
+      background: #fbfaf6;
       border-bottom: 1px solid var(--line);
       padding: 46px max(24px, 6vw) 42px;
     }
@@ -169,9 +169,9 @@
       grid-template-columns: 1fr;
       gap: 14px;
       padding: 16px;
-      border: 1px solid #dfe2ec;
+      border: 1px solid #e0ded7;
       border-radius: 10px;
-      background: #eef1f7;
+      background: #f1f0eb;
     }
 
     .path-panel,
@@ -186,7 +186,7 @@
     }
 
     .filter-panel {
-      border: 1px solid rgba(91, 121, 214, 0.28);
+      border: 1px solid rgba(99, 120, 174, 0.2);
       background: #ffffff;
       box-shadow: inset 4px 0 0 var(--accent);
     }
@@ -223,7 +223,7 @@
     .filter-panel .tool-head {
       margin-bottom: 18px;
       padding-bottom: 14px;
-      border-bottom: 1px solid rgba(91, 121, 214, 0.16);
+      border-bottom: 1px solid rgba(101, 116, 110, 0.14);
     }
 
     .filter-panel .tool-head h2 {
@@ -246,7 +246,7 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px 0;
+      gap: 10px;
     }
 
     .path-step {
@@ -293,16 +293,6 @@
       white-space: nowrap;
     }
 
-    .path-arrow {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      color: var(--flow-line);
-      font-size: 16px;
-      font-weight: 760;
-    }
-
     .filter-controls {
       display: grid;
       grid-template-columns: repeat(4, minmax(140px, 1fr));
@@ -343,8 +333,8 @@
       margin: 16px 0 0;
       padding: 10px 12px;
       border-radius: 8px;
-      color: #4f5668;
-      background: #f4f6fb;
+      color: #555b67;
+      background: #f6f5f1;
       font-size: 13px;
       line-height: 1.65;
     }
@@ -413,14 +403,11 @@
 
     .flow-map {
       position: relative;
-      --flow-gap-x: 34px;
-      --flow-gap-y: 54px;
-      --connector-y: 58px;
-      padding: 42px 34px 48px;
+      padding: 34px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--flow-gap-y) var(--flow-gap-x);
-      background: #fbfbf7;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 30px;
+      background: #fbfaf6;
       overflow: hidden;
     }
 
@@ -431,16 +418,27 @@
       display: flex;
       flex-direction: column;
       align-self: stretch;
-      padding: 22px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.88);
-      box-shadow: 0 10px 24px rgba(33, 31, 26, 0.05);
+      padding: 28px;
+      border: 1px solid rgba(111, 116, 109, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 12px 30px rgba(33, 31, 26, 0.045);
+      overflow: hidden;
       animation: nodeIn 460ms ease both;
       animation-delay: calc(var(--node-index) * 60ms);
     }
 
-    .flow-node::before,
+    .flow-node::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      pointer-events: none;
+      background: var(--section-accent);
+      opacity: 0.5;
+      z-index: 2;
+    }
+
     .flow-node::after {
       content: "";
       position: absolute;
@@ -449,173 +447,161 @@
       z-index: 2;
     }
 
-    .flow-node[data-flow="right"]::after {
-      display: block;
-      left: 100%;
-      top: var(--connector-y);
-      width: var(--flow-gap-x);
-      border-top: 2px solid var(--flow-line);
-    }
-
-    .flow-node[data-flow="right"]::before {
-      display: block;
-      left: calc(100% + var(--flow-gap-x) - 11px);
-      top: calc(var(--connector-y) - 5px);
-      width: 10px;
-      height: 10px;
-      border-top: 2px solid var(--flow-line);
-      border-right: 2px solid var(--flow-line);
-      transform: rotate(45deg);
-    }
-
-    .flow-node[data-flow="left"]::after {
-      display: block;
-      right: 100%;
-      top: var(--connector-y);
-      width: var(--flow-gap-x);
-      border-top: 2px solid var(--flow-line);
-    }
-
-    .flow-node[data-flow="left"]::before {
-      display: block;
-      right: calc(100% + var(--flow-gap-x) - 11px);
-      top: calc(var(--connector-y) - 5px);
-      width: 10px;
-      height: 10px;
-      border-top: 2px solid var(--flow-line);
-      border-right: 2px solid var(--flow-line);
-      transform: rotate(-135deg);
-    }
-
-    .flow-node[data-flow="down"]::after {
-      display: block;
-      left: 50%;
-      top: 100%;
-      height: var(--flow-gap-y);
-      border-left: 2px solid var(--flow-line);
-      transform: translateX(-50%);
-    }
-
-    .flow-node[data-flow="down"]::before {
-      display: block;
-      left: calc(50% - 5px);
-      top: calc(100% + var(--flow-gap-y) - 11px);
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid var(--flow-line);
-      border-bottom: 2px solid var(--flow-line);
-      transform: rotate(45deg);
-    }
-
     .flow-node:nth-of-type(1) {
       grid-column: 1;
-      grid-row: 1;
+      grid-row: auto;
+      --section-accent: #7d96c4;
+      --section-soft: rgba(125, 150, 196, 0.1);
+      --card-bg-1: #fbfcfd;
+      --card-bg-2: #f9fbfd;
+      --card-bg-3: #f7fafc;
+      --card-bg-4: #f5f8fa;
     }
 
     .flow-node:nth-of-type(2) {
-      grid-column: 2;
-      grid-row: 1;
+      grid-column: 1;
+      grid-row: auto;
+      --section-accent: #c7a06d;
+      --section-soft: rgba(199, 160, 109, 0.11);
+      --card-bg-1: #fffdfb;
+      --card-bg-2: #fffcf8;
+      --card-bg-3: #fffaf4;
+      --card-bg-4: #fff8f0;
     }
 
     .flow-node:nth-of-type(3) {
-      grid-column: 3;
-      grid-row: 1;
+      grid-column: 1;
+      grid-row: auto;
+      --section-accent: #ad91b8;
+      --section-soft: rgba(173, 145, 184, 0.1);
+      --card-bg-1: #fffdfd;
+      --card-bg-2: #fcfafc;
+      --card-bg-3: #faf7fb;
+      --card-bg-4: #f8f4f9;
     }
 
     .flow-node:nth-of-type(4) {
-      grid-column: 3;
-      grid-row: 2;
+      grid-column: 1;
+      grid-row: auto;
+      --section-accent: #8aa392;
+      --section-soft: rgba(138, 163, 146, 0.1);
+      --card-bg-1: #fcfdfc;
+      --card-bg-2: #fafcfa;
+      --card-bg-3: #f7faf7;
+      --card-bg-4: #f4f8f5;
     }
 
     .flow-node:nth-of-type(5) {
-      grid-column: 2;
-      grid-row: 2;
+      grid-column: 1;
+      grid-row: auto;
     }
 
     .flow-node:nth-of-type(6) {
       grid-column: 1;
-      grid-row: 2;
+      grid-row: auto;
     }
 
     .flow-node:nth-of-type(7) {
       grid-column: 1;
-      grid-row: 3;
+      grid-row: auto;
     }
 
     .flow-node:nth-of-type(8) {
-      grid-column: 2;
-      grid-row: 3;
+      grid-column: 1;
+      grid-row: auto;
     }
 
     .flow-node:nth-of-type(9) {
-      grid-column: 3;
-      grid-row: 3;
+      grid-column: 1;
+      grid-row: auto;
     }
 
     .node-top {
       display: grid;
-      grid-template-columns: auto auto 1fr;
-      gap: 14px;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 22px;
+      row-gap: 10px;
       align-items: center;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(111, 116, 109, 0.14);
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(111, 116, 109, 0.13);
+    }
+
+    .node-title-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
     }
 
     .node-icon {
       position: relative;
-      display: grid;
+      flex: 0 0 auto;
+      display: inline-grid;
       place-items: center;
-      width: 50px;
-      height: 50px;
-      border: 1px solid #ddd9cf;
-      border-radius: 8px;
-      color: var(--accent-dark);
-      background: #f8f8f3;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(101, 116, 110, 0.1);
+      border-radius: 50%;
+      color: var(--section-accent);
+      background: var(--section-soft);
       box-shadow: none;
     }
 
     .node-icon svg {
-      width: 28px;
-      height: 28px;
+      width: 19px;
+      height: 19px;
       stroke: currentColor;
-      stroke-width: 1.7;
+      stroke-width: 1.65;
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
     .node-index {
-      display: grid;
-      place-items: center;
-      width: 64px;
-      height: 64px;
-      border: 1px solid #151515;
-      border-radius: 8px;
-      color: #ffffff;
-      background: #151515;
-      font-size: 28px;
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      align-items: center;
+      width: 94px;
+      min-height: 70px;
+      padding-right: 18px;
+      border: 0;
+      border-right: 1px solid rgba(21, 21, 21, 0.14);
+      border-radius: 0;
+      color: #151515;
+      background: transparent;
+      font-size: 54px;
       line-height: 1;
       font-weight: 850;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .node-copy {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
     }
 
     .node-name {
       margin: 0;
-      font-size: 20px;
+      font-size: 24px;
       line-height: 1.28;
       font-weight: 760;
     }
 
     .node-description {
-      margin: 8px 0 0;
+      max-width: 920px;
+      margin: 9px 0 0;
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.75;
+      font-size: 14px;
+      line-height: 1.85;
     }
 
     .scene-list {
       display: grid;
-      gap: 12px;
-      margin-top: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 22px;
     }
 
     .empty-state {
@@ -632,28 +618,44 @@
     .scene-card {
       position: relative;
       width: 100%;
-      min-height: 124px;
+      min-height: 132px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 12px;
-      padding: 15px;
-      border: 1px solid rgba(111, 116, 109, 0.16);
+      padding: 17px 17px 16px;
+      border: 1px solid rgba(111, 116, 109, 0.12);
       border-left: 3px solid var(--level-color);
-      border-radius: 8px;
+      border-radius: 10px;
       color: var(--ink);
-      background: rgba(255, 255, 255, 0.88);
+      background: var(--card-bg, rgba(255, 255, 255, 0.9));
       text-align: left;
       cursor: pointer;
       transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .scene-card:nth-child(4n + 1) {
+      --card-bg: var(--card-bg-1);
+    }
+
+    .scene-card:nth-child(4n + 2) {
+      --card-bg: var(--card-bg-2);
+    }
+
+    .scene-card:nth-child(4n + 3) {
+      --card-bg: var(--card-bg-3);
+    }
+
+    .scene-card:nth-child(4n) {
+      --card-bg: var(--card-bg-4);
     }
 
     .scene-card:hover,
     .scene-card:focus-visible {
       transform: translateY(-2px);
       border-color: var(--level-color);
-      background: #ffffff;
-      box-shadow: 0 10px 20px rgba(33, 31, 26, 0.08);
+      background: color-mix(in srgb, var(--card-bg) 54%, #ffffff);
+      box-shadow: 0 10px 18px rgba(33, 31, 26, 0.06);
       outline: none;
     }
 
@@ -667,7 +669,7 @@
     .scene-title {
       display: block;
       color: var(--ink);
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 760;
       line-height: 1.5;
     }
@@ -689,7 +691,7 @@
     .scene-summary {
       display: block;
       color: var(--muted);
-      font-size: 12.5px;
+      font-size: 13px;
       line-height: 1.75;
     }
 
@@ -862,6 +864,25 @@
       line-height: 1.9;
     }
 
+    .value-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .value-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--modal-color);
+      background: var(--modal-soft);
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.2;
+    }
+
     @keyframes riseIn {
       from {
         opacity: 0;
@@ -897,8 +918,12 @@
 
     @media (max-width: 1180px) {
       .flow-map {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
         padding: 34px 24px 38px;
+      }
+
+      .scene-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .flow-node,
@@ -915,10 +940,6 @@
         grid-row: auto;
       }
 
-      .flow-node[data-flow]::before,
-      .flow-node[data-flow]::after {
-        display: none;
-      }
     }
 
     @media (max-width: 900px) {
@@ -949,39 +970,17 @@
       }
 
       .flow-map {
-        --flow-gap-y: 28px;
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 22px;
         padding: 24px 16px 28px;
+      }
+
+      .scene-list {
+        grid-template-columns: 1fr;
       }
 
       .flow-node {
         min-height: 0;
-      }
-
-      .flow-node[data-flow]::after {
-        display: block;
-        left: 50%;
-        right: auto;
-        top: 100%;
-        width: 0;
-        height: 24px;
-        border-top: 0;
-        border-left: 2px solid var(--flow-line);
-        transform: translateX(-50%);
-      }
-
-      .flow-node[data-flow]::before {
-        display: block;
-        left: calc(50% - 5px);
-        right: auto;
-        top: calc(100% + 13px);
-        width: 10px;
-        height: 10px;
-        border: 0;
-        border-right: 2px solid var(--flow-line);
-        border-bottom: 2px solid var(--flow-line);
-        transform: rotate(45deg);
       }
 
       .phase-grid {
@@ -1004,10 +1003,6 @@
         gap: 8px;
       }
 
-      .path-arrow {
-        display: none;
-      }
-
       .path-step {
         width: 100%;
       }
@@ -1022,22 +1017,30 @@
       }
 
       .node-top {
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto minmax(0, 1fr);
+        column-gap: 14px;
       }
 
       .node-icon {
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .node-icon svg {
+        width: 17px;
+        height: 17px;
       }
 
       .node-index {
-        width: 54px;
-        height: 54px;
-        font-size: 24px;
+        width: 68px;
+        min-height: 54px;
+        padding-right: 12px;
+        font-size: 36px;
       }
 
-      .node-top > div:last-child {
-        grid-column: 1 / -1;
+      .node-copy {
+        grid-column: 2;
+        grid-row: 1;
       }
 
       .rollout {
@@ -1084,10 +1087,10 @@
 <body>
   <header class="hero">
     <div class="hero-inner">
-      <p class="eyebrow">流程地图 + 阶段标签</p>
-      <h1>跨境电商供应链自动化场景地图</h1>
-      <p class="subtitle">围绕订单、采购、仓储、物流、合规、对账和异常闭环，梳理供应链部门可落地的 RPA + AI 自动化机会。</p>
-      <p class="hint">点击任意场景，查看该环节的业务背景、自动化工作流，以及 RPA 与 AI 的分工。</p>
+      <p class="eyebrow">BXD真实业务场景</p>
+      <h1>BXD供应链 AI + RPA 自动化场景地图</h1>
+      <p class="subtitle">围绕新品开发、跟单闭环、设计协同与仓库信息支持，梳理供应链部门可落地的自动化机会。</p>
+      <p class="hint">本地图用于帮助供应链团队沿真实工作流识别自动化机会。场景按 L1、L2、L3 三个阶段推进：先做基础提效，再做流程串联，最后形成管理增强。</p>
     </div>
   </header>
 
@@ -1096,17 +1099,17 @@
       <article class="stage-card" style="--level-color: var(--l1); --level-soft: var(--l1-soft);">
         <span class="stage-code">L1 基础提效</span>
         <h2>高频动作自动化</h2>
-        <p>将下载、复制、汇总、提醒、归档等高频重复动作自动化，减少人工操作。</p>
+        <p>将资料收集、复制汇总、字段摘取、提醒归档、周报生成等高频重复动作自动化，减少人工操作。</p>
       </article>
       <article class="stage-card" style="--level-color: var(--l2); --level-soft: var(--l2-soft);">
         <span class="stage-code">L2 流程串联</span>
         <h2>跨环节状态可见</h2>
-        <p>把订单、采购、库存、发货、物流和异常处理串联起来，让流程状态可见、异常可追踪。</p>
+        <p>把新品开发、报价、交期、生产反馈、设计协同、仓库信息支持等流程节点逐步串起来，让信息可追踪、结果可复用。</p>
       </article>
       <article class="stage-card" style="--level-color: var(--l3); --level-soft: var(--l3-soft);">
         <span class="stage-code">L3 管理增强</span>
         <h2>数据沉淀辅助管理</h2>
-        <p>基于沉淀数据形成预测、评分、预警和看板，辅助供应链管理决策。</p>
+        <p>基于沉淀数据形成分析、复盘、评分、预警和管理看板，辅助供应链负责人判断优先级和管理风险。</p>
       </article>
     </section>
 
@@ -1115,9 +1118,9 @@
         <div class="tool-head">
           <div>
             <h2>完整供应链路径</h2>
-            <p>按业务顺序定位 9 个环节，从订单入口一路走到数据看板。</p>
+            <p>按真实业务顺序定位 4 个板块，从新品开发到仓库信息支持。</p>
           </div>
-          <span class="tool-kicker">01-09</span>
+          <span class="tool-kicker">01-04</span>
         </div>
         <div class="path-line" id="pathLine" aria-label="供应链完整路径"></div>
       </article>
@@ -1138,11 +1141,11 @@
     <section class="flow-shell" aria-labelledby="flow-title">
       <div class="flow-head">
         <div>
-          <h2 id="flow-title">供应链业务流程地图</h2>
-          <p>从订单入口一路走到数据看板，每个业务站点展示可落地的自动化场景，并标注对应 L 阶段。</p>
+          <h2 id="flow-title">BXD真实业务流程地图</h2>
+          <p>围绕四个真实业务板块展示可落地的 AI + RPA 自动化场景，并标注对应 L 阶段。</p>
         </div>
         <div class="flow-stats" aria-label="流程统计">
-          <span><strong id="nodeCount">9</strong>业务节点</span>
+          <span><strong id="nodeCount">4</strong>业务板块</span>
           <span><strong id="sceneCount">24</strong>自动化场景</span>
         </div>
       </div>
@@ -1158,14 +1161,14 @@
         </article>
         <article class="phase">
           <h3>第二阶段：推进 L2 流程串联场景</h3>
-          <p>把订单、采购、库存、发货、物流和异常处理逐步串起来。</p>
+          <p>把新品开发、报价、交期、生产反馈、设计协同和仓库信息支持逐步串起来。</p>
         </article>
         <article class="phase">
           <h3>第三阶段：建设 L3 管理增强场景</h3>
-          <p>基于沉淀数据形成预测、评分、预警和看板，辅助供应链管理。</p>
+          <p>基于沉淀数据形成分析、复盘、评分、预警和管理看板，辅助供应链管理。</p>
         </article>
       </div>
-      <p class="closing-note">建议先选 1 到 2 个样板流程跑通，再逐步扩展到完整供应链流程。</p>
+      <p class="closing-note">建议先选 1 到 2 个样板场景跑通，再逐步扩展到完整真实业务流程。</p>
     </section>
   </main>
 
@@ -1184,73 +1187,50 @@
   </div>
 
   <script>
-    const nodes = [
-      {
-        name: "订单入口",
-        icon: "order",
-        description: "承接订单接入、状态汇总和关键字段校验，形成统一订单处理入口。"
-      },
-      {
-        name: "采购备货",
-        icon: "cart",
-        description: "围绕销量、库存、在途和交期，支持备货、补货和库存风险判断。"
-      },
-      {
-        name: "供应商协同",
-        icon: "factory",
-        description: "覆盖询价、比价、交期催办、未发货跟进和供应商表现管理。"
-      },
-      {
-        name: "入库库存",
-        icon: "warehouse",
-        description: "处理库存同步、海外仓流水、FBA 入仓差异和库存准确性。"
-      },
-      {
-        name: "发货准备",
-        icon: "package",
-        description: "完成面单、发票、装箱单、地址、重量和发货资料检查。"
-      },
-      {
-        name: "跨境物流",
-        icon: "plane",
-        description: "追踪物流轨迹、单号有效性和运输异常，提升跨境履约可见性。"
-      },
-      {
-        name: "报关合规",
-        icon: "folder",
-        description: "整理报关文件、核验 HS 编码，并支撑退税数据准备。"
-      },
-      {
-        name: "退货与异常闭环",
-        icon: "cycle",
-        description: "联动售后、仓库、质检和责任人，推动退货和异常订单闭环。"
-      },
-      {
-        name: "数据看板",
-        icon: "chart",
-        description: "沉淀供应链全链路数据，形成管理视图、风险摘要和经营提示。"
-      }
+    const sections = [
+          {
+                "name": "新品开发",
+                "icon": "spark",
+                "description": "把市场调研、资料查找、材料解析、概念表达和立项推进串起来，让新品开发从零散资料收集变成可复用的开发信息流。"
+          },
+          {
+                "name": "跟单闭环",
+                "icon": "cycle",
+                "description": "把报价、成本、交期、生产、运输和售后反馈整理成一个闭环，减少人工追踪和信息碎片化。"
+          },
+          {
+                "name": "设计协同",
+                "icon": "design",
+                "description": "通过 CAD 需求任务单、AI 沟通图和改图说明，减少需求表达不清带来的沟通返工。"
+          },
+          {
+                "name": "仓库信息支持",
+                "icon": "warehouse",
+                "description": "仓库先从信息摘取、共享表更新、周报和临时工成本核算切入，优先理顺信息流和成本流。"
+          }
     ];
 
     const levelMeta = {
       L1: {
         label: "L1 基础提效",
-        color: "#5b79d6",
-        soft: "#eef2ff"
+        color: "#6378ae",
+        soft: "#f2f4fa"
       },
       L2: {
         label: "L2 流程串联",
-        color: "#e5a044",
-        soft: "#fff3df"
+        color: "#c89451",
+        soft: "#fbf3e8"
       },
       L3: {
         label: "L3 管理增强",
-        color: "#a85aa2",
-        soft: "#f8edf7"
+        color: "#9b75a6",
+        soft: "#f7f2f8"
       }
     };
 
     const iconPaths = {
+      spark: '<path d="M12 3.5 13.8 9l5.7 1.3-5.1 3.1.7 5.9-3.1-5-5.1 3.1 2-5.5-4.4-4 5.8.2z"/><path d="M19 4v4"/><path d="M17 6h4"/>',
+      design: '<path d="M5 19h4l10-10a2.8 2.8 0 0 0-4-4L5 15z"/><path d="M13.5 6.5 17.5 10.5"/><path d="M5 15v4"/>',
       order: '<path d="M8 4.5h8l3 3V20H8z"/><path d="M16 4.5V8h3"/><path d="M11 11h6"/><path d="M11 15h5"/>',
       cart: '<path d="M5 6h2l1.4 8.2h8.8l1.8-5.8H8"/><circle cx="10" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>',
       factory: '<path d="M5 20V9l5 3V9l5 3V7h4v13z"/><path d="M8 16h2"/><path d="M13 16h2"/><path d="M18 16h1"/>',
@@ -1269,294 +1249,414 @@
     }
 
     const scenes = [
-      {
-        id: "1",
-        title: "多渠道订单自动导入",
-        summary: "自动汇总独立站、亚马逊、ERP、人工表格等多渠道订单，形成统一订单入口。",
-        node: "订单入口",
-        level: "L1",
-        background: "跨境业务常见订单入口多、后台多、格式不统一，人工下载和汇总容易造成漏单、重复处理和处理延迟。",
-        workflow: "定时进入各渠道后台，下载订单数据，按订单号去重，统一字段格式，写入订单总表，并标记待处理订单。",
-        rpa: "登录后台、下载订单、清洗字段、写入表格、回填处理状态。",
-        ai: "识别订单类型，判断字段缺失，辅助标记疑似异常订单。",
-        stage: "第一阶段，低风险高频样板。"
-      },
-      {
-        id: "2",
-        title: "订单状态统一汇总",
-        summary: "把不同平台、不同表格中的订单状态统一汇总，形成供应链每日待处理清单。",
-        node: "订单入口",
-        level: "L1",
-        background: "供应链同事需要频繁查看订单是否待处理、待发货、缺货、异常或已完成，人工切换系统成本高。",
-        workflow: "定时采集订单状态，统一状态口径，生成每日待处理订单清单，推送给相关负责人。",
-        rpa: "采集订单状态、合并表格、生成清单、推送提醒。",
-        ai: "识别状态描述差异，归类异常状态，生成摘要说明。",
-        stage: "第一阶段，供应链日报样板。"
-      },
-      {
-        id: "3",
-        title: "订单字段完整性检查",
-        summary: "自动检查订单里的收货信息、商品信息、数量、SKU、地址、联系方式等关键字段是否完整。",
-        node: "订单入口",
-        level: "L1",
-        background: "订单信息不完整会影响采购、发货、物流和售后处理，人工逐单检查效率低。",
-        workflow: "读取新增订单，按规则检查关键字段，生成缺失字段清单，推送补充提醒。",
-        rpa: "读取订单、校验字段、生成清单、推送提醒。",
-        ai: "识别地址、备注、商品描述中的非结构化信息，辅助提取有效字段。",
-        stage: "第一阶段，适合快速打样。"
-      },
-      {
-        id: "4",
-        title: "询价批量发送与比价汇总",
-        summary: "自动生成询价模板，批量发送给供应商，并把供应商回复整理成比价表。",
-        node: "供应商协同",
-        level: "L1",
-        background: "供应商询价往返频繁，人工整理报价、交期、MOQ 和备注信息耗时。",
-        workflow: "读取待询价 SKU，生成询价模板，批量发送供应商，收集回复，提取报价字段，输出比价表。",
-        rpa: "批量发送询价、收集回复、整理表格、生成比价结果。",
-        ai: "识别报价内容，提取价格、交期、MOQ、付款条件和备注。",
-        stage: "第一阶段到第二阶段。"
-      },
-      {
-        id: "5",
-        title: "未发货订单自动催单",
-        summary: "自动识别超过约定时间仍未发货的采购订单，并生成催单任务。",
-        node: "供应商协同",
-        level: "L1",
-        background: "未发货订单如果没有及时跟进，会影响入库、补货和销售履约。",
-        workflow: "定时读取采购订单状态，筛选超期未发货订单，匹配供应商和责任人，发送催单提醒，记录处理进度。",
-        rpa: "查询订单状态、筛选超期订单、推送催单、回写处理结果。",
-        ai: "识别供应商回复内容，提取新的预计发货时间和延期原因。",
-        stage: "第一阶段，适合打样。"
-      },
-      {
-        id: "6",
-        title: "发货资料批量制作",
-        summary: "自动生成面单、发票、装箱单和发货资料，提高发货准备效率。",
-        node: "发货准备",
-        level: "L1",
-        background: "发货资料字段多、格式多，人工制作容易重复劳动和字段错误。",
-        workflow: "读取订单信息，匹配收货地址、SKU、箱数、重量和体积，自动生成发货资料并归档。",
-        rpa: "读取订单、生成文件、上传系统、保存归档。",
-        ai: "识别异常地址、缺失字段和资料格式问题。",
-        stage: "第一阶段，低风险高频样板。"
-      },
-      {
-        id: "7",
-        title: "物流轨迹自动追踪",
-        summary: "批量查询物流单号状态，自动更新订单最新物流进度。",
-        node: "跨境物流",
-        level: "L1",
-        background: "跨境物流链路长，人工逐票查询耗时，客户催单时响应慢。",
-        workflow: "读取物流单号，批量查询物流平台，更新最新状态，识别异常，并推送结果。",
-        rpa: "查询物流网站、回填物流状态、生成异常清单。",
-        ai: "解释物流状态，识别异常类型，生成客户回复参考。",
-        stage: "第一阶段，适合快速起效。"
-      },
-      {
-        id: "8",
-        title: "跟踪单号有效性自动校验",
-        summary: "定期校验物流单号是否有效，识别错误单号、无轨迹单号和异常单号。",
-        node: "跨境物流",
-        level: "L1",
-        background: "错误单号会影响物流追踪和客户通知，也会增加人工排查成本。",
-        workflow: "读取单号列表，批量查询有效性，标记异常单号，推送修正提醒。",
-        rpa: "批量查询、状态回填、异常提醒。",
-        ai: "识别异常类型，辅助判断是否为物流商延迟更新或单号错误。",
-        stage: "第一阶段到第二阶段。"
-      },
-      {
-        id: "9",
-        title: "报关合规文件自动整理归档",
-        summary: "自动整理报关单、提单、放行单、发票、装箱单等文件，并按规则归档。",
-        node: "报关合规",
-        level: "L1",
-        background: "报关文件分散在系统、邮件和文件夹中，后续查询和审计成本高。",
-        workflow: "识别文件来源，下载附件，按订单号或柜号归档，统一命名，生成缺失文件清单。",
-        rpa: "下载文件、整理文件夹、重命名、生成清单。",
-        ai: "识别文件类型，判断文件是否匹配订单。",
-        stage: "第一阶段到第二阶段。"
-      },
-      {
-        id: "10",
-        title: "备货数据自动整合",
-        summary: "自动整合销量、库存、在途、采购周期和历史缺货数据，形成备货参考表。",
-        node: "采购备货",
-        level: "L2",
-        background: "备货判断通常依赖多个表格和系统，人工整理耗时，容易遗漏在途库存或历史销量变化。",
-        workflow: "采集销售数据、库存数据、在途数据和采购周期，按 SKU 汇总，形成可用于备货判断的数据表。",
-        rpa: "采集多源数据、合并表格、按 SKU 汇总、生成备货参考表。",
-        ai: "识别销量波动，提示潜在缺货或积压风险。",
-        stage: "第二阶段，数据基础具备后推进。"
-      },
-      {
-        id: "11",
-        title: "供应商交期预警与催办",
-        summary: "自动识别临期和逾期订单，向供应商和内部责任人发送催办提醒。",
-        node: "供应商协同",
-        level: "L2",
-        background: "交期跟进依赖人工筛表和手动催办，延期问题发现晚，会影响后续发货和销售节奏。",
-        workflow: "读取采购计划和预计到货时间，识别临期、逾期订单，生成催办清单，发送提醒，并记录反馈。",
-        rpa: "读取采购计划、计算逾期状态、发送提醒、记录催办历史。",
-        ai: "归类延期原因，辅助生成催办话术和处理建议。",
-        stage: "第一阶段，供应链高频场景。"
-      },
-      {
-        id: "12",
-        title: "多平台库存实时同步",
-        summary: "自动同步销售平台、ERP、仓库和海外仓库存，减少库存不一致。",
-        node: "入库库存",
-        level: "L2",
-        background: "多平台销售容易出现库存口径不一致，造成超卖、缺货或补货不及时。",
-        workflow: "定时读取平台库存、ERP 库存、仓库库存和海外仓库存，按 SKU 映射，生成差异清单或同步结果。",
-        rpa: "读取库存数据、匹配 SKU、生成差异表、回填库存。",
-        ai: "识别 SKU 映射异常，提示库存风险。",
-        stage: "第二阶段，流程串联场景。"
-      },
-      {
-        id: "13",
-        title: "海外仓库存盘点流水自动采集",
-        summary: "定时采集海外仓库存流水和库存变动，更新内部库存看板。",
-        node: "入库库存",
-        level: "L2",
-        background: "海外仓数据常依赖人工导出，库存变动不及时会影响销售和补货判断。",
-        workflow: "登录海外仓系统，下载库存流水，清洗字段，更新库存看板，识别异常变动。",
-        rpa: "登录系统、下载库存流水、清洗数据、更新表格。",
-        ai: "分析异常库存变化，提示可能原因。",
-        stage: "第二阶段。"
-      },
-      {
-        id: "14",
-        title: "FBA 货件差异自动核查",
-        summary: "自动比对 FBA 货件状态和内部发货记录，识别入仓差异。",
-        node: "入库库存",
-        level: "L2",
-        background: "FBA 入仓差异需要人工核查多张表，影响库存准确性和后续索赔。",
-        workflow: "下载 FBA 货件状态，读取内部发货记录，按货件号和 SKU 比对，输出差异清单。",
-        rpa: "下载货件状态、读取内部发货记录、执行比对、生成结果。",
-        ai: "归纳差异类型，辅助生成处理建议。",
-        stage: "第二阶段，适合有 FBA 场景时推进。"
-      },
-      {
-        id: "15",
-        title: "发货前资料校验",
-        summary: "自动检查发货前的订单信息、地址、箱数、重量、物流方式和单据是否完整。",
-        node: "发货准备",
-        level: "L2",
-        background: "发货前校验不到位，容易导致错发、漏发、物流异常或后续对账困难。",
-        workflow: "读取待发货订单，按发货 checklist 自动检查关键字段，生成可发货、需补充、异常三类结果。",
-        rpa: "读取订单数据、执行规则校验、生成校验结果、推送提醒。",
-        ai: "识别备注和非结构化文本中的异常风险。",
-        stage: "第一阶段到第二阶段。"
-      },
-      {
-        id: "16",
-        title: "物流异常自动提醒",
-        summary: "自动识别物流停滞、清关异常、退件、派送失败等风险，并推送给责任人。",
-        node: "跨境物流",
-        level: "L2",
-        background: "物流异常发现晚，会影响客户体验和售后成本。",
-        workflow: "定时监控物流状态，按异常规则识别风险订单，生成异常清单，推送处理提醒。",
-        rpa: "采集物流状态、匹配异常规则、发送提醒、记录处理进度。",
-        ai: "归类异常原因，辅助判断处理优先级。",
-        stage: "第二阶段。"
-      },
-      {
-        id: "17",
-        title: "HS 编码自动查询与核验",
-        summary: "自动查询商品对应 HS 编码，并对异常编码进行标记。",
-        node: "报关合规",
-        level: "L2",
-        background: "HS 编码影响报关、税务和合规，人工查询和核对耗时。",
-        workflow: "读取商品信息，查询 HS 编码库，匹配编码结果，标记疑似异常编码。",
-        rpa: "读取商品数据、查询编码、写入结果。",
-        ai: "理解商品描述，辅助判断编码匹配度。",
-        stage: "第二阶段，合规场景。"
-      },
-      {
-        id: "18",
-        title: "出口退税数据自动采集",
-        summary: "自动提取出口退税所需数据，形成申报准备表。",
-        node: "报关合规",
-        level: "L2",
-        background: "退税资料分散在订单、报关、发票和物流数据里，人工整理耗时。",
-        workflow: "读取相关订单、发票、报关和物流数据，提取申报字段，生成退税数据表。",
-        rpa: "采集数据、整理字段、生成表格。",
-        ai: "识别字段异常，提示缺失或不一致信息。",
-        stage: "第二阶段到第三阶段。"
-      },
-      {
-        id: "19",
-        title: "退货处理与入库流程自动化",
-        summary: "自动识别退货订单，联动质检、入库、库存更新和销售通知。",
-        node: "退货与异常闭环",
-        level: "L2",
-        background: "退货涉及售后、仓库、质检和销售，人工流转容易漏步骤。",
-        workflow: "读取退货订单，生成质检任务，记录质检结果，更新库存，通知相关人员。",
-        rpa: "读取退货数据、创建任务、回填库存、推送通知。",
-        ai: "识别退货原因，辅助分类质检结果。",
-        stage: "第二阶段。"
-      },
-      {
-        id: "20",
-        title: "异常订单自动分派",
-        summary: "自动识别缺货、延期、错发、物流异常、退货等订单异常，并分派给对应责任人。",
-        node: "退货与异常闭环",
-        level: "L2",
-        background: "异常订单如果缺少统一入口，容易出现责任不清、处理滞后和重复沟通。",
-        workflow: "采集订单状态和异常信息，识别异常类型，匹配责任人，推送处理任务，跟踪处理结果。",
-        rpa: "采集状态、生成任务、推送提醒、记录结果。",
-        ai: "判断异常类型，生成处理建议和摘要。",
-        stage: "第二阶段到第三阶段。"
-      },
-      {
-        id: "21",
-        title: "智能补货预测",
-        summary: "结合历史销量、库存、在途数量和供应周期，生成未来一段时间的补货建议。",
-        node: "采购备货",
-        level: "L3",
-        background: "跨境电商补货周期长，断货会影响销售，备货过多会占用资金和仓储空间。",
-        workflow: "定期读取销量、库存、在途和交期数据，计算建议补货量，生成补货清单和风险提示。",
-        rpa: "采集数据、执行计算、生成报表、推送结果。",
-        ai: "分析销量趋势、季节波动和异常增长，辅助生成补货建议。",
-        stage: "第三阶段，适合数据沉淀后升级。"
-      },
-      {
-        id: "22",
-        title: "超龄库存与呆滞库存预警",
-        summary: "自动识别库龄过长、周转变慢、占用资金的 SKU，并形成处理清单。",
-        node: "采购备货",
-        level: "L3",
-        background: "库存积压会占用现金流和仓储资源，人工盘点往往发现较晚。",
-        workflow: "读取库存明细、入库时间和销售数据，计算库龄与周转情况，标记超龄库存和呆滞库存。",
-        rpa: "读取库存表、计算库龄、生成预警清单。",
-        ai: "结合销售趋势和库存结构，辅助判断处理优先级。",
-        stage: "第二阶段到第三阶段。"
-      },
-      {
-        id: "23",
-        title: "供应商评分与排名",
-        summary: "基于价格、交期、质量、配合度和异常率，对供应商进行周期评分。",
-        node: "供应商协同",
-        level: "L3",
-        background: "供应商管理如果只依赖经验，容易缺少统一评价标准。",
-        workflow: "采集采购记录、到货记录、质检记录和延期记录，统计供应商表现，生成评分和排名。",
-        rpa: "采集供应商数据、汇总指标、生成评分表。",
-        ai: "解释评分变化，识别供应商风险，辅助提出优化建议。",
-        stage: "第三阶段，适合管理升级。"
-      },
-      {
-        id: "24",
-        title: "供应链数据看板",
-        summary: "自动汇总订单、采购、库存、物流、异常和对账数据，形成供应链管理视图。",
-        node: "数据看板",
-        level: "L3",
-        background: "供应链负责人需要快速看到订单卡点、库存风险、交期风险、物流异常和供应商表现。",
-        workflow: "定时采集各环节数据，清洗整合，生成指标看板，自动推送日报或周报。",
-        rpa: "采集数据、更新看板、生成报表、定时推送。",
-        ai: "解释异常变化，生成供应链经营摘要和风险提示。",
-        stage: "第三阶段，管理升级。"
-      }
+          {
+                "id": "1",
+                "title": "国内与海外市场调研采集",
+                "section": "新品开发",
+                "level": "L1",
+                "summary": "自动采集国内外平台竞品、价格、销量、评论、评分和链接，形成市场调研表。",
+                "background": "新品开发前需要快速了解国内热销方向、海外需求差异、价格带、材质趋势和竞品卖点，人工逐个平台查找效率较低。",
+                "workflow": "按关键词采集国内外平台的商品信息、价格、销量、评论、评分、竞品链接和图片，整理为标准调研表。",
+                "businessValue": [
+                      "省时",
+                      "提效",
+                      "辅助判断"
+                ],
+                "rpa": "搜索关键词、抓取价格、销量、评论、评分、链接和图片，并写入调研表。",
+                "ai": "总结热销卖点、主流材质、差评原因、文化偏好、价格带和新品机会。",
+                "stage": "L1 基础提效，适合作为新品开发前期的信息采集样板。"
+          },
+          {
+                "id": "2",
+                "title": "新品数据分析",
+                "section": "新品开发",
+                "level": "L2",
+                "summary": "将销量、价格、排名、评论和历史变化数据转成新品开发判断依据。",
+                "background": "调研数据分散在多个平台、表格和页面中，人工难以快速形成新品开发判断。",
+                "workflow": "汇总销量、价格、排名、评论、评分和历史变化数据，生成新品分析表。",
+                "businessValue": [
+                      "辅助判断",
+                      "提效",
+                      "管理复盘"
+                ],
+                "rpa": "",
+                "ai": "基于调研数据提炼趋势判断、风险点、产品机会和开发建议。",
+                "stage": "L2 流程串联，需要在调研字段和数据口径统一后推进。"
+          },
+          {
+                "id": "3",
+                "title": "产品资料查找与材料解析",
+                "section": "新品开发",
+                "level": "L2",
+                "summary": "自动整理规格书、认证、说明书、竞品图片、供应商资料，并解析材料和工艺风险。",
+                "background": "新品开发需要大量规格书、认证、说明书、竞品图片、供应商资料和材料说明，人工查找、阅读和判断成本高。",
+                "workflow": "收集产品相关资料、图片、材料描述和供应商文件，按品类和开发阶段归档，并生成材料解析卡。",
+                "businessValue": [
+                      "省时",
+                      "辅助判断",
+                      "降错"
+                ],
+                "rpa": "下载资料、保存图片、按规则命名文件、整理文件夹和更新资料清单。",
+                "ai": "提取关键参数，识别资料缺失项，分析材料组成、工艺难点、替代方案和成本风险。",
+                "stage": "L2 流程串联，适合在资料来源和解析模板稳定后推进。"
+          },
+          {
+                "id": "4",
+                "title": "AI 辅助产品概念图",
+                "section": "新品开发",
+                "level": "L2",
+                "summary": "将口头想法、关键词、参考图和尺寸要求转成产品概念图或结构草图。",
+                "background": "新品早期经常存在想法有了但表达不清的问题，设计和开发沟通需要更直观的草图。",
+                "workflow": "输入关键词、参考图、尺寸、材质和功能要求，生成概念图、结构草图或场景示意图。",
+                "businessValue": [
+                      "提效",
+                      "辅助判断",
+                      "交接标准化"
+                ],
+                "rpa": "",
+                "ai": "生成概念图、结构草图、场景示意图或设计方向图。",
+                "stage": "L2 流程串联，适合作为新品开发与设计协同之间的桥接场景。"
+          },
+          {
+                "id": "5",
+                "title": "新品开发推进台账",
+                "section": "新品开发",
+                "level": "L2",
+                "summary": "自动跟踪新品立项、打样、改样、确认节点，减少开发过程遗漏。",
+                "background": "新品开发涉及立项、调研、打样、改样、确认等多个节点，人工跟进容易遗漏。",
+                "workflow": "自动记录新品开发节点，生成当前进度、卡点和下一步动作清单。",
+                "businessValue": [
+                      "提效",
+                      "风险预警",
+                      "管理复盘"
+                ],
+                "rpa": "读取台账、更新节点状态、推送待办提醒和生成阶段列表。",
+                "ai": "总结当前卡点，提炼下一步建议和风险提示。",
+                "stage": "L2 流程串联，适合在开发流程节点明确后上线。"
+          },
+          {
+                "id": "6",
+                "title": "新品立项资料包",
+                "section": "新品开发",
+                "level": "L2",
+                "summary": "自动归集卖点、尺寸、材料、目标价和参考图，生成新品需求书或设计 brief。",
+                "background": "新品立项需要整合卖点、目标价、尺寸、材料、参考图和竞品信息，人工整理资料包耗时。",
+                "workflow": "归集调研资料、卖点、图片、目标价和材料信息，生成新品需求书、设计 brief 和沟通重点。",
+                "businessValue": [
+                      "省时",
+                      "交接标准化",
+                      "提效"
+                ],
+                "rpa": "收集资料、整理文件、填充模板和生成资料包。",
+                "ai": "生成新品需求书、设计 brief、沟通重点和风险摘要。",
+                "stage": "L2 流程串联，适合在调研和资料归档跑通后推进。"
+          },
+          {
+                "id": "7",
+                "title": "询盘报价汇总与问题清单",
+                "section": "跟单闭环",
+                "level": "L1",
+                "summary": "自动整理多家报价、规格、MOQ、交期、备注和供应商问题，形成标准报价表和待确认清单。",
+                "background": "供应链跟单需要整理多家报价和供应商问题，人工比价和归类问题效率低。",
+                "workflow": "收集报价单、聊天记录和邮件内容，提取报价字段与疑问项，生成报价汇总表和报价问题清单。",
+                "businessValue": [
+                      "省时",
+                      "降错",
+                      "提效"
+                ],
+                "rpa": "读取报价文件、邮件附件、聊天记录和表格内容，并更新报价汇总表。",
+                "ai": "提取价格、规格、MOQ、交期、备注和异常项，并按规格、价格、交期、材料、包装等类型归类问题。",
+                "stage": "L1 基础提效，适合作为跟单板块首批样板。"
+          },
+          {
+                "id": "8",
+                "title": "阶段性报价分析",
+                "section": "跟单闭环",
+                "level": "L2",
+                "summary": "对比首轮、二轮和最终报价版本，分析价格变化和关键变项。",
+                "background": "新品或采购跟单过程中，首轮、二轮、最终报价会持续变化，需要看清价格波动原因。",
+                "workflow": "汇总不同阶段的报价版本，自动对比价格、交期、规格和备注变化。",
+                "businessValue": [
+                      "辅助判断",
+                      "降错",
+                      "管理复盘"
+                ],
+                "rpa": "",
+                "ai": "分析涨跌原因、波动幅度、关键变项和异常报价。",
+                "stage": "L2 流程串联，适合报价模板稳定后推进。"
+          },
+          {
+                "id": "9",
+                "title": "材料成本核算",
+                "section": "跟单闭环",
+                "level": "L2",
+                "summary": "自动拆解材料、工艺、包装和运输成本，辅助判断报价和利润空间。",
+                "background": "材料、工艺、包装和运输成本会影响报价判断和利润空间，人工拆解成本耗时。",
+                "workflow": "收集材料、工艺、包装、运输等成本项，生成成本核算表。",
+                "businessValue": [
+                      "成本透明",
+                      "辅助判断",
+                      "降错"
+                ],
+                "rpa": "",
+                "ai": "拆解成本结构，识别异常成本项，给出成本风险提示。",
+                "stage": "L2 流程串联，适合报价汇总跑通后推进。"
+          },
+          {
+                "id": "10",
+                "title": "报价跟进及转化分析",
+                "section": "跟单闭环",
+                "level": "L3",
+                "summary": "记录询盘、报价、跟进节点和成交结果，分析报价转化和流失原因。",
+                "background": "报价发出后，需要知道哪些报价在推进、哪些没有转化、哪些客户流失。",
+                "workflow": "记录询盘时间、报价时间、跟进节点和成交结果，生成报价转化分析。",
+                "businessValue": [
+                      "管理复盘",
+                      "辅助判断",
+                      "提效"
+                ],
+                "rpa": "",
+                "ai": "分析跟进效率、流失原因、转化风险和后续动作建议。",
+                "stage": "L3 管理增强，需要跟进数据沉淀后推进。"
+          },
+          {
+                "id": "11",
+                "title": "交期跟进与生产反馈汇总",
+                "section": "跟单闭环",
+                "level": "L2",
+                "summary": "自动跟进供应商交期，汇总生产日报、验货记录和聊天反馈，提前识别延期风险。",
+                "background": "供应商交期和生产节点需要持续跟进，生产反馈又分散在日报、周报、验货记录和聊天内容中，人工汇总压力大。",
+                "workflow": "定时读取交期表，提醒供应商反馈；同时收集生产反馈，提炼当前进度、异常点和待处理事项。",
+                "businessValue": [
+                      "省时",
+                      "风险预警",
+                      "提效"
+                ],
+                "rpa": "读取交期表、发送提醒、收集反馈、更新交期状态和生产反馈表。",
+                "ai": "识别延期信号、判断回复质量、总结生产进度、识别异常点，并输出待处理清单。",
+                "stage": "L2 流程串联，适合首批试点后扩展。"
+          },
+          {
+                "id": "12",
+                "title": "物流运输反馈",
+                "section": "跟单闭环",
+                "level": "L2",
+                "summary": "汇总货代、物流、到港、到仓反馈，识别延误、改约和异常节点。",
+                "background": "货代、物流、到港、到仓反馈分散，人工追踪和汇总效率低。",
+                "workflow": "采集物流系统、邮件和货代反馈信息，更新运输反馈表并标记异常。",
+                "businessValue": [
+                      "省时",
+                      "风险预警",
+                      "提效"
+                ],
+                "rpa": "采集物流系统、邮件和货代反馈信息，更新运输反馈表。",
+                "ai": "判断运输异常、提炼延误原因、生成风险摘要。",
+                "stage": "L2 流程串联，适合跟单闭环中期上线。"
+          },
+          {
+                "id": "13",
+                "title": "售后整理",
+                "section": "跟单闭环",
+                "level": "L2",
+                "summary": "自动收集退货、投诉、维修、补发等信息，按客户、SKU、问题类型归档。",
+                "background": "退货、投诉、维修、补发等售后信息需要统一归档，避免问题散落。",
+                "workflow": "收集售后记录、图片、原因说明和处理状态，按客户、SKU、问题类型整理。",
+                "businessValue": [
+                      "省时",
+                      "交接标准化",
+                      "管理复盘"
+                ],
+                "rpa": "抓取售后表、邮件、聊天记录和图片资料，生成售后整理表。",
+                "ai": "识别问题类型，提取原因描述，生成售后摘要。",
+                "stage": "L2 流程串联，适合数据来源稳定后推进。"
+          },
+          {
+                "id": "14",
+                "title": "售后问题分析",
+                "section": "跟单闭环",
+                "level": "L3",
+                "summary": "汇总售后数据、图片和原因说明，分析高频问题、责任归因和改进方向。",
+                "background": "售后问题可反向暴露产品、供应商、包装、运输和设计缺陷，需要形成分析闭环。",
+                "workflow": "汇总售后数据、图片和原因说明，输出高频问题、责任归因和改进方向。",
+                "businessValue": [
+                      "管理复盘",
+                      "辅助判断",
+                      "降错"
+                ],
+                "rpa": "",
+                "ai": "归纳高频售后问题，分析可能责任方向，并输出产品、供应商或包装改进建议。",
+                "stage": "L3 管理增强，需要售后记录口径统一后推进。"
+          },
+          {
+                "id": "15",
+                "title": "CAD 需求任务单",
+                "section": "设计协同",
+                "level": "L1",
+                "summary": "自动整理尺寸、功能、材质、参考图和限制条件，生成结构化 CAD 需求说明。",
+                "background": "设计协同中，需求表达不清会导致 CAD 沟通反复和返工。",
+                "workflow": "收集尺寸、功能、材质、参考图和限制条件，生成结构化 CAD 需求任务单。",
+                "businessValue": [
+                      "交接标准化",
+                      "降错",
+                      "提效"
+                ],
+                "rpa": "收集聊天、表格、图片和附件，并填入任务单模板。",
+                "ai": "整理需求描述，提炼设计重点、限制条件和注意事项。",
+                "stage": "L1 基础提效，适合作为设计协同入口。"
+          },
+          {
+                "id": "16",
+                "title": "AI 辅助 CAD 沟通图",
+                "section": "设计协同",
+                "level": "L2",
+                "summary": "将想法关键词、参考图、使用场景和尺寸要求转成结构示意图或修改方向图。",
+                "background": "新品开发和设计沟通中，口头想法不容易被设计准确理解，容易造成反复沟通。",
+                "workflow": "输入关键词、参考图、尺寸和使用场景，生成结构示意图或修改方向图。",
+                "businessValue": [
+                      "提效",
+                      "交接标准化",
+                      "辅助判断"
+                ],
+                "rpa": "",
+                "ai": "把想法、参考图和使用场景转化为沟通示意图，帮助设计人员更快理解方向。",
+                "stage": "L2 流程串联"
+          },
+          {
+                "id": "17",
+                "title": "改图说明整理",
+                "section": "设计协同",
+                "level": "L2",
+                "summary": "将语音、聊天、批注和手写意见整理成可执行的改图说明。",
+                "background": "改图意见可能来自语音、聊天、批注和手写说明，人工整理容易遗漏重点。",
+                "workflow": "收集多来源改图意见，整理成可执行的改图说明和优先级清单。",
+                "businessValue": [
+                      "提效",
+                      "交接标准化",
+                      "降错"
+                ],
+                "rpa": "",
+                "ai": "提炼修改点、合并重复意见、区分优先级和注意事项。",
+                "stage": "L2 流程串联，适合与 CAD 任务单共同推进。"
+          },
+          {
+                "id": "18",
+                "title": "包装与标签文案校对",
+                "section": "设计协同",
+                "level": "L1",
+                "summary": "自动检查设计稿、标签内容和 SKU 资料中的规格、警示语和品牌信息。",
+                "background": "包装和标签涉及 SKU、规格、警示语、品牌信息，低级错误会导致返工。",
+                "workflow": "读取设计稿、标签内容和 SKU 资料，检查错别字、规格和品牌信息。",
+                "businessValue": [
+                      "降错",
+                      "省时",
+                      "提效"
+                ],
+                "rpa": "收集设计稿、标签文件和 SKU 资料，生成校对清单。",
+                "ai": "检查文案错误、规格不一致、警示语缺失和品牌信息异常。",
+                "stage": "L1 基础提效，适合低风险打样。"
+          },
+          {
+                "id": "19",
+                "title": "设计反馈汇总",
+                "section": "设计协同",
+                "level": "L2",
+                "summary": "自动汇总开发、采购、运营和设计反馈，合并重复意见并输出最终修改清单。",
+                "background": "开发、采购、运营和设计的反馈容易分散，设计修改时需要压缩成统一口径。",
+                "workflow": "抓取各方反馈，合并重复意见，输出最终修改清单。",
+                "businessValue": [
+                      "提效",
+                      "交接标准化",
+                      "降错"
+                ],
+                "rpa": "",
+                "ai": "合并重复意见，提炼核心修改点，生成最终修改清单。",
+                "stage": "L2 流程串联，适合设计协同较频繁时上线。"
+          },
+          {
+                "id": "20",
+                "title": "工单摘取到共享表",
+                "section": "仓库信息支持",
+                "level": "L1",
+                "summary": "自动摘取工单中的 SKU、数量、客户、时间、安装和出货要求，并更新共享表。",
+                "background": "仓库目前适合先做信息流自动化，从工单中摘取安装和出货信息，再更新共享表。",
+                "workflow": "抓取工单内容，提取 SKU、数量、客户、时间、安装项、配件项和出货特殊要求，写入共享表。",
+                "businessValue": [
+                      "省时",
+                      "降错",
+                      "交接标准化"
+                ],
+                "rpa": "读取工单、提取固定字段、写入共享表，并更新处理状态。",
+                "ai": "识别备注中的安装要求、配件项、特殊出货要求和异常信息。",
+                "stage": "L1 基础提效，适合作为仓库侧首批样板。"
+          },
+          {
+                "id": "21",
+                "title": "出入库数据汇总",
+                "section": "仓库信息支持",
+                "level": "L2",
+                "summary": "自动抓取入库、出库和结存数据，按 SKU 和时间维度汇总。",
+                "background": "仓库负责人需要及时看到入库、出库、结存情况，人工汇总成本较高。",
+                "workflow": "采集入库、出库和结存信息，按 SKU 和时间维度生成汇总结果。",
+                "businessValue": [
+                      "省时",
+                      "提效",
+                      "管理复盘"
+                ],
+                "rpa": "采集出入库数据、清洗字段、更新汇总表。",
+                "ai": "识别异常波动，生成简要说明。",
+                "stage": "L2 流程串联，适合仓库数据稳定后推进。"
+          },
+          {
+                "id": "22",
+                "title": "每周货物情况周报",
+                "section": "仓库信息支持",
+                "level": "L1",
+                "summary": "自动汇总本周到货、出货、待装和异常情况，生成仓库周报。",
+                "background": "仓库需要定期汇总本周到货、出货、待装和异常情况，人工写周报耗时。",
+                "workflow": "汇总本周货物状态，生成仓库周报摘要和异常提示。",
+                "businessValue": [
+                      "省时",
+                      "管理复盘",
+                      "风险预警"
+                ],
+                "rpa": "收集出入库、待装、异常记录和工单数据，生成周报底稿。",
+                "ai": "生成周报摘要，提炼本周到货、出货、待装和异常重点。",
+                "stage": "L1 基础提效，适合固定周报场景。"
+          },
+          {
+                "id": "23",
+                "title": "临时工工时汇总",
+                "section": "仓库信息支持",
+                "level": "L1",
+                "summary": "自动收集班次、人数、工时和工单对应关系，生成工时汇总表。",
+                "background": "仓库临时工班次、人数、工时和工单对应关系需要统计，人工核对容易遗漏。",
+                "workflow": "收集班次、人数、工时和工单对应关系，生成工时汇总表。",
+                "businessValue": [
+                      "省时",
+                      "降错",
+                      "成本透明"
+                ],
+                "rpa": "抓取工时记录、匹配工单、整理周汇总。",
+                "ai": "识别缺失记录和异常工时。",
+                "stage": "L1 基础提效，适合每周固定执行。"
+          },
+          {
+                "id": "24",
+                "title": "临时工成本核算",
+                "section": "仓库信息支持",
+                "level": "L2",
+                "summary": "汇总工时、单价、补贴和额外费用，自动核算临时工成本并输出分析。",
+                "background": "临时工成本影响仓库管理成本，需要按周核算工时、单价、补贴和额外费用。",
+                "workflow": "汇总工时、单价、补贴和费用，自动核算临时工成本，并生成周度分析。",
+                "businessValue": [
+                      "成本透明",
+                      "省时",
+                      "管理复盘"
+                ],
+                "rpa": "收集工时和单价数据、执行基础核算、生成成本表。",
+                "ai": "分析成本变化、识别异常费用、生成周度说明。",
+                "stage": "L2 流程串联，适合工时和单价记录稳定后推进。"
+          }
     ];
 
     const flowMap = document.getElementById("flowMap");
@@ -1582,23 +1682,19 @@
     function renderPathLine() {
       pathLine.replaceChildren();
 
-      nodes.forEach((node, index) => {
+      sections.forEach((section, index) => {
         const button = createElement("button", "path-step");
         button.type = "button";
-        button.setAttribute("aria-label", `定位到${node.name}环节`);
+        button.setAttribute("aria-label", `定位到${section.name}环节`);
         button.append(
           createElement("span", "path-number", String(index + 1).padStart(2, "0")),
-          createElement("span", "path-label", node.name)
+          createElement("span", "path-label", section.name)
         );
         button.addEventListener("click", () => {
-          const target = flowMap.querySelector(`[data-node="${node.name}"]`);
+          const target = flowMap.querySelector(`[data-node="${section.name}"]`);
           if (target) target.scrollIntoView({ behavior: "smooth", block: "center" });
         });
         pathLine.appendChild(button);
-
-        if (index < nodes.length - 1) {
-          pathLine.appendChild(createElement("span", "path-arrow", "→"));
-        }
       });
     }
 
@@ -1636,37 +1732,38 @@
       const visibleScenes = activeLevel === "all"
         ? scenes
         : scenes.filter((scene) => scene.level === activeLevel);
-      document.getElementById("nodeCount").textContent = nodes.length;
+      document.getElementById("nodeCount").textContent = sections.length;
       document.getElementById("sceneCount").textContent = visibleScenes.length;
       updateFilterMeta(visibleScenes.length);
 
-      const flowDirections = ["right", "right", "down", "left", "left", "down", "right", "right"];
-      nodes.forEach((node, index) => {
-        const nodeScenes = visibleScenes.filter((scene) => scene.node === node.name);
+      sections.forEach((section, index) => {
+        const sectionScenes = visibleScenes.filter((scene) => scene.section === section.name);
         const article = createElement("article", "flow-node");
-        article.dataset.node = node.name;
+        article.dataset.node = section.name;
         article.style.setProperty("--node-index", index);
-        if (flowDirections[index]) article.dataset.flow = flowDirections[index];
 
         const top = createElement("div", "node-top");
         const indexBadge = createElement("span", "node-index", String(index + 1).padStart(2, "0"));
         const icon = createElement("div", "node-icon");
         icon.setAttribute("aria-hidden", "true");
-        icon.appendChild(createIcon(node.icon));
+        icon.appendChild(createIcon(section.icon));
 
-        const titleWrap = createElement("div");
+        const titleLine = createElement("div", "node-title-line");
+        titleLine.append(icon, createElement("h2", "node-name", section.name));
+
+        const titleWrap = createElement("div", "node-copy");
         titleWrap.append(
-          createElement("h2", "node-name", node.name),
-          createElement("p", "node-description", node.description)
+          titleLine,
+          createElement("p", "node-description", section.description)
         );
-        top.append(indexBadge, icon, titleWrap);
+        top.append(indexBadge, titleWrap);
 
         const list = createElement("div", "scene-list");
-        nodeScenes.forEach((scene) => {
+        sectionScenes.forEach((scene) => {
           const meta = levelMeta[scene.level];
           const card = createElement("button", "scene-card");
           card.type = "button";
-          card.setAttribute("aria-label", `${scene.node}：${scene.title}，${meta.label}，查看详情`);
+          card.setAttribute("aria-label", `${scene.section}：${scene.title}，${meta.label}，查看详情`);
           card.style.setProperty("--level-color", meta.color);
           card.style.setProperty("--level-soft", meta.soft);
 
@@ -1686,7 +1783,7 @@
         });
 
         article.append(top);
-        if (nodeScenes.length > 0) {
+        if (sectionScenes.length > 0) {
           article.appendChild(list);
         } else {
           article.appendChild(createElement("p", "empty-state", "该阶段暂无场景。"));
@@ -1698,7 +1795,7 @@
     function openModal(scene) {
       const meta = levelMeta[scene.level];
       lastFocusedElement = document.activeElement;
-      modalStep.textContent = `${scene.node} · ${meta.label}`;
+      modalStep.textContent = `${scene.section} · ${meta.label}`;
       modalStep.style.setProperty("--modal-color", meta.color);
       modalStep.style.setProperty("--modal-soft", meta.soft);
       modalTitle.textContent = scene.title;
@@ -1706,18 +1803,27 @@
       modalBody.style.setProperty("--modal-color", meta.color);
       modalBody.replaceChildren();
 
-      [
+      const details = [
         ["业务背景", scene.background],
         ["主要自动化工作流", scene.workflow],
+        ["业务价值", scene.businessValue, "tags"],
         ["RPA 分工", scene.rpa],
         ["AI 分工", scene.ai],
         ["适合阶段", scene.stage]
-      ].forEach(([label, value]) => {
+      ].filter(([, value]) => Array.isArray(value) ? value.length > 0 : Boolean(value));
+
+      details.forEach(([label, value, type]) => {
         const row = createElement("div", "detail-row");
-        row.append(
-          createElement("div", "detail-label", label),
-          createElement("p", "detail-value", value)
-        );
+        row.appendChild(createElement("div", "detail-label", label));
+
+        if (type === "tags") {
+          const tagWrap = createElement("div", "value-tags");
+          value.forEach((item) => tagWrap.appendChild(createElement("span", "value-tag", item)));
+          row.appendChild(tagWrap);
+        } else {
+          row.appendChild(createElement("p", "detail-value", value));
+        }
+
         modalBody.appendChild(row);
       });
 
